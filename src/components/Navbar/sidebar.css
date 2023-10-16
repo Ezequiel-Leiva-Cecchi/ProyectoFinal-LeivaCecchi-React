@@ -1,0 +1,102 @@
+ .sidebar {
+   display: inline-block;
+   width: 100%;
+   padding: 5px;
+   background-color: rgb(245, 245, 45);
+   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+ }
+
+ .sidebar h2 {
+   font-size: 18px;
+   margin-bottom: 10px;
+ }
+
+ .sidebar ul {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   list-style-type: none;
+   padding: 0;
+ }
+
+ .sidebar li {
+   margin-bottom: 5px;
+ }
+
+ .sidebar label {
+   display: flex;
+   align-items: center;
+ }
+
+ .sidebar input[type="checkbox"] {
+   margin-right: 5px;
+ }
+
+
+ .sidebar input[type="checkbox"]:checked+label {
+   font-weight: bold;
+   color: #007bff;
+ }
+
+ .fire {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: orange;
+   color: aliceblue;
+ }
+
+ .grass {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: rgb(5, 250, 5);
+   color: aliceblue;
+ }
+
+ .poison {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: blueviolet;
+   color: aliceblue;
+ }
+
+ .flying {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #0099CC;
+   color: aliceblue;
+ }
+
+ .water {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #3399FF;
+   color: aliceblue;
+ }
+
+ .bug {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #A8B820;
+   color: aliceblue;
+ }
+
+ .normal {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: gray;
+   color: aliceblue;
+ }
+
+ .electric{
+  padding: 5px 13px;
+  border-radius: 3px ;
+  background-color: #FFD700;
+  color: aliceblue;
+ }
+
+ .ground{
+  padding: 5px 13px;
+  border-radius: 3px ;
+  background-color: #8B4513;
+  color: aliceblue;
+ }

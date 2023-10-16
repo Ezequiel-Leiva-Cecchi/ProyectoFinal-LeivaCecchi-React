@@ -1,0 +1,149 @@
+ul {
+  list-style-type: none;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  flex: 1;
+  max-width: 300px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  border: 2px solid #1A0E62;
+  border-radius: 12px;
+  margin: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  transition: transform 0.2s;
+  overflow: hidden; 
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background-color: #1A0E62;
+  color: white;
+}
+.poke-id {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 100px;
+  color: #535050; 
+  z-index: 1; 
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px; 
+  position: relative; 
+  z-index: 1; 
+}
+
+.card-text {
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+}
+
+.container-card {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.card-container {
+  flex-basis: calc(27.000% - 20px); 
+  margin-bottom: 20px;
+}
+button{
+  background-color: #ffcc00; 
+  color: #333; 
+  border: none; 
+  padding: 3px 5px; 
+  border-radius: 5px; 
+  font-weight: bold; 
+  text-transform: uppercase; 
+  text-decoration: none; 
+  cursor: pointer; 
+  display: inline-block; 
+  transition: background-color 0.3s ease; 
+}
+button:hover{
+  background-color: #ff9900; 
+}
+button a{
+  color:azure;
+  text-decoration: none;
+}
+.fire {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: orange;
+   color: aliceblue;
+ }
+
+ .grass {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: rgb(5, 250, 5);
+   color: aliceblue;
+ }
+
+ .poison {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: blueviolet;
+   color: aliceblue;
+ }
+
+ .flying {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #0099CC;
+   color: aliceblue;
+ }
+
+ .water {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #3399FF;
+   color: aliceblue;
+ }
+
+ .bug {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: #A8B820;
+   color: aliceblue;
+ }
+
+ .normal {
+  padding: 5px 13px;
+  border-radius: 3px ;
+   background-color: gray;
+   color: aliceblue;
+ }
+
+ .electric{
+  padding: 5px 13px;
+  border-radius: 3px ;
+  background-color: #FFD700;
+  color: aliceblue;
+ }
+
+ .ground{
+  padding: 5px 13px;
+  border-radius: 3px ;
+  background-color: #8B4513;
+  color: aliceblue;
+ }

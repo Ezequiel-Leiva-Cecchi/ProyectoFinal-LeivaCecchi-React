@@ -1,0 +1,32 @@
+/* Cart.css */
+.cart-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 300px;
+    padding: 20px;
+    text-align: center;
+    min-height: 200px; /* Altura mínima para ocupar más espacio verticalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  /* Estilo adicional para separar del Nav y el Footer */
+  .cart-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
