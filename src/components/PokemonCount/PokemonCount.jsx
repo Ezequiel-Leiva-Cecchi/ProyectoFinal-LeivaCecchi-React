@@ -3,7 +3,7 @@ import { CartContext } from '../../context/AddCartContext';
 import './pokemonCount.css';
 
 function PokemonCount({ Pokemon }) {
-  let { addCart } = useContext(CartContext); 
+  const { addCart } = useContext(CartContext); // Usar addCart en lugar de onAddToCart
 
   const [count, setCount] = useState(0);
   const [stock] = useState(10);
@@ -20,13 +20,14 @@ function PokemonCount({ Pokemon }) {
     }
   };
 
-  addCart = () => {
+  const onAddToCart = () => {
     if (count > 0) {
       addCart({ ...Pokemon, cantidad: count });
       setCount(0);
+      console.log("Artículo añadido al carrito:", { ...Pokemon, cantidad: count });
     }
   };
-
+console.log(onAddToCart)
   return (
     <div>
       <div>
@@ -39,7 +40,7 @@ function PokemonCount({ Pokemon }) {
       <p>Precio por unidad: ${Pokemon.price}</p>
       <p>Total: ${Pokemon.price * count}</p>
       <p>Stock disponible: {stock}</p>
-      <button disabled={count === 0} onClick={addCart}>
+      <button disabled={count === 0} onClick={onAddToCart}>
         Comprar
       </button>
     </div>
