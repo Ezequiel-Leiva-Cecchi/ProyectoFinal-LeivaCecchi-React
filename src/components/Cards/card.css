@@ -1,3 +1,67 @@
+/* Estilos para las casillas de verificación */
+.type-checkboxes {
+  background-color: #f2f2f2;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  border-radius: 5px;
+}
+
+.checkbox-label {
+  display: flex; /* Para centrar horizontalmente los elementos internos */
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-label label {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.checkbox-label input {
+  display: none;
+}
+
+.checkbox-checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #333;
+  background-color: #fff;
+  margin-right: 10px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.checkbox-label input:checked + .checkbox-checkmark {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.no-pokemon-found {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: #555;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el contenedor del mensaje de error */
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Estilo de las Cards */
 ul {
   list-style-type: none;
   padding: 30px;
@@ -20,7 +84,7 @@ ul {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   transition: transform 0.2s;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .card:hover {
@@ -28,25 +92,26 @@ ul {
   background-color: #1A0E62;
   color: white;
 }
+
 .poke-id {
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgba(255, 255, 255, 0.8); 
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 5px;
   border-radius: 5px;
   font-size: 100px;
-  color: #535050; 
-  z-index: 1; 
+  color: #535050;
+  z-index: 1;
 }
 
 .image {
   max-width: 100%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 15px; 
-  position: relative; 
-  z-index: 1; 
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
 }
 
 .card-text {
@@ -61,89 +126,94 @@ ul {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 .card-container {
-  flex-basis: calc(27.000% - 20px); 
+  flex-basis: calc(27.000% - 20px);
   margin-bottom: 20px;
 }
-button{
-  background-color: #ffcc00; 
-  color: #333; 
-  border: none; 
-  padding: 3px 5px; 
-  border-radius: 5px; 
-  font-weight: bold; 
-  text-transform: uppercase; 
-  text-decoration: none; 
-  cursor: pointer; 
-  display: inline-block; 
-  transition: background-color 0.3s ease; 
+
+button {
+  background-color: #ffcc00;
+  color: #333;
+  border: none;
+  padding: 3px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
 }
-button:hover{
-  background-color: #ff9900; 
+
+button:hover {
+  background-color: #ff9900;
 }
-button a{
-  color:azure;
+
+button a {
+  color: azure;
   text-decoration: none;
 }
+
 .fire {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: orange;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: orange;
+  color: aliceblue;
+}
 
- .grass {
+.grass {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: rgb(5, 250, 5);
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: rgb(5, 250, 5);
+  color: aliceblue;
+}
 
- .poison {
+.poison {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: blueviolet;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: blueviolet;
+  color: aliceblue;
+}
 
- .flying {
+.flying {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: #0099CC;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: #0099CC;
+  color: aliceblue;
+}
 
- .water {
+.water {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: #3399FF;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: #3399FF;
+  color: aliceblue;
+}
 
- .bug {
+.bug {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: #A8B820;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: #A8B820;
+  color: aliceblue;
+}
 
- .normal {
+.normal {
   padding: 5px 13px;
-  border-radius: 3px ;
-   background-color: gray;
-   color: aliceblue;
- }
+  border-radius: 3px;
+  background-color: gray;
+  color: aliceblue;
+}
 
- .electric{
+.electric {
   padding: 5px 13px;
-  border-radius: 3px ;
+  border-radius: 3px;
   background-color: #FFD700;
   color: aliceblue;
- }
+}
 
- .ground{
+.ground {
   padding: 5px 13px;
-  border-radius: 3px ;
+  border-radius: 3px;
   background-color: #8B4513;
   color: aliceblue;
- }
+}

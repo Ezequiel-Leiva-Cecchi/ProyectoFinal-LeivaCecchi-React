@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './pokemonDetail.css';
-import PokemonCount from '../PokemonCount/PokemonCount'
+import PokemonCount from '../PokemonCount/PokemonCount';
+
 import { useParams } from 'react-router-dom';
 import { useFech } from '../ListaPokemon/Pokemonlist';
+
 function PokemonDetails() {
   const { name } = useParams();
   const [pokemon, setPokemon] = useState({});
@@ -12,14 +14,16 @@ function PokemonDetails() {
     if (Array.isArray(data)) {
       const selectedPokemon = data.find((p) => p.name === name);
       if (selectedPokemon) {
+        selectedPokemon.price = 10;
         setPokemon(selectedPokemon);
       }
     }
   }, [name, data]);
+
   if (loading) {
     return <div>Cargando...</div>;
   }
- 
+
   return (
     <div className="pokemon-details-container">
       <h1>Pokemon Details</h1>
@@ -28,7 +32,7 @@ function PokemonDetails() {
         <img className='image' src={pokemon.imageUrl} alt="" />
         <p>Type: {pokemon.types && pokemon?.types.join(', ')}</p>
         <p className="abilities">Abilities: {pokemon.abilities && pokemon?.abilities.join(', ')}</p>
-        <PokemonCount/>
+        <PokemonCount Pokemon={pokemon} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React ,  { useState, useEffect } from 'react';
 
 export function useFech(url) {
   const [data, setData] = useState([]);
@@ -38,7 +38,6 @@ export function useFech(url) {
 
     fetchData();
   }, []);
-
 
   return{data, loading}
 }
