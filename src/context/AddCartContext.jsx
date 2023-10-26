@@ -6,12 +6,24 @@ export const Items = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
 
   const addCart = (item) => {
-    setCarrito([...carrito, item]);
+    setCarrito((prevCarrito) => {
+      const existingItem = prevCarrito.find((pokemon) => pokemon.id === item.id);
+
+      if (existingItem) {
+        return prevCarrito.map((pokemon) =>
+          pokemon.id === item.id
+            ? { ...pokemon, cantidad: pokemon.cantidad + item.cantidad }
+            : pokemon
+        );
+      } else {
+        return [...prevCarrito, item];
+      }
+    });
   };
 
   return (
-    <CartContext.Provider value={{ carrito, setCarrito, addCart }}>
+    <CartContext.Provider value={{ carrito, addCart }}>
       {children}
     </CartContext.Provider>
   );
-}
+};

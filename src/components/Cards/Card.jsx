@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import './card.css';
-import { useFech } from '../ListaPokemon/Pokemonlist';
 import { Link } from 'react-router-dom';
+import getPokemon  from '../ListaPokemon/Pokemonlist';
+import {db} from '../../index.js'
 
 function Card() {
-  const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
+  // const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
   const [selectedTypes, setSelectedTypes] = useState([]);
-
+  const [data, setData] = useState([]);
   let response;
 
-  if (loading) {
-    response = <div>Cargando...</div>;
-  } else {
+  useEffect(() => {
+    getPokemon(db) // Llama a getPokemon con la base de datos
+      .then(response => {
+        setData(response);
+      })
+      .catch(error => {
+        console.error('Error al obtener datos de la base de datos:', error);
+      });
+  }, []); // El array vacío asegura que esta función se ejecute solo una vez al montar el componente
+
+
+  if (data) {
     const filteredData = data.filter(pokemon => {
       if (selectedTypes.length === 0) {
         return true;
       }
-      return selectedTypes.every(type => pokemon.types.includes(type));
+      return selectedTypes.every(type => pokemon.tipo.includes(type));
     });
 
     if (filteredData.length === 0) {
@@ -77,16 +87,16 @@ function Card() {
 
 function mapeoDePokemons(data = [], selectedTypes) {
   return data.map(function (pokemon) {
-    const typeClass = pokemon.types[0].toLowerCase();
+    const typeClass = pokemon.tipo[0].toLowerCase();
 
     return (
-      <div className={`card-container ${typeClass}`} key={pokemon.name}>
-        <li className="card" key={pokemon.name}>
-          <img className="image" src={pokemon.imageUrl} alt={"Imagen de"} />
+      <div className={`card-container ${typeClass}`} key={pokemon.nombre}>
+        <li className="card" key={pokemon.nombre}>
+          <img className="image" src={pokemon.img} alt={"Imagen de"} />
           <div className="card-body">
-            <p className="card-text">Name: {pokemon.name}</p>
-            <p className={`card-text ${typeClass}`}>Type: {pokemon.types.join(', ')} </p>
-            <button><Link to={`/detalles/${pokemon.name}`}>More Details</Link></button>
+            <p className="card-text">Nombre: {pokemon.nombre}</p>
+            <p className={`card-text ${typeClass}`}>Tipo: {pokemon.tipo.join(", ")} </p>
+            <button><Link to={`/detalles/${pokemon.nombre}`}>Más Detalles</Link></button>
           </div>
         </li>
       </div>
@@ -95,7 +105,7 @@ function mapeoDePokemons(data = [], selectedTypes) {
 }
 
 function getUniqueTypes(data) {
-  const allTypes = data.flatMap(pokemon => pokemon.types);
+  const allTypes = data.flatMap(pokemon => pokemon.tipo);
   return [...new Set(allTypes)];
 }
 

@@ -14,15 +14,21 @@ function App() {
   return (
     <Items>
       <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Card />} />
-          <Route path="/nosotros" element={<Nosotros />} />
-          <Route path="/detalles/:name" element={<PokemonDetail />} />
-          <Route path="/contador" element={<PokemonCount />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
-        <Footer />
+        <div className="nav-container"> 
+          <Nav />
+        </div>
+        <div className="routes-container"> 
+          <Routes>
+            <Route path="/" element={<Card />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/detalles/:pokemonName" element={<PokemonDetail />} />
+            <Route path="/contador" element={<PokemonCount />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </div>
+        <div className="footer-container"> 
+          <Footer />
+        </div>
       </BrowserRouter>
     </Items>
   );

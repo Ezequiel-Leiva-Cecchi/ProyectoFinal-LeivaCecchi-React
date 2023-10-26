@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import './pokemonDetail.css';
 import PokemonCount from '../PokemonCount/PokemonCount';
-
-import { useParams } from 'react-router-dom';
-import { useFech } from '../ListaPokemon/Pokemonlist';
+import {db} from '../../index.js'
+import getPokemon from '../ListaPokemon/Pokemonlist'
 
 function PokemonDetails() {
-  const { name } = useParams();
   const [pokemon, setPokemon] = useState({});
-  const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
-
+  const numeroPokedex ="";
+  // const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
   useEffect(() => {
-    if (Array.isArray(data)) {
-      const selectedPokemon = data.find((p) => p.name === name);
-      if (selectedPokemon) {
-        selectedPokemon.price = 10;
-        setPokemon(selectedPokemon);
-      }
-    }
-  }, [name, data]);
+   getPokemon(db,numeroPokedex)
+   .then(response=>{
+    setPokemon(response);
+   })
+   .catch(error => {
+    console.error('Error al obtener datos de la base de datos:', error);
+  });
+  },[numeroPokedex] ); 
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
+  // if (loading) {
+  //   return <div>Cargando...</div>;
+  // }
 
   return (
     <div className="pokemon-details-container">
       <h1>Pokemon Details</h1>
-      <div key={pokemon.pokeId}>
+      <div key={pokemon.numeroPokedex}>
         <h2>{pokemon.name}</h2>
-        <img className='image' src={pokemon.imageUrl} alt="" />
-        <p>Type: {pokemon.types && pokemon?.types.join(', ')}</p>
-        <p className="abilities">Abilities: {pokemon.abilities && pokemon?.abilities.join(', ')}</p>
+        <img className='image' src={pokemon.img} alt="" />
+        <p>Tipo: {pokemon.types && pokemon?.types.join(', ')}</p>
+        <p className="abilities">Descripcion: {pokemon.descripcion && pokemon?.descripcion.join(', ')}</p>
         <PokemonCount Pokemon={pokemon} />
       </div>
     </div>

@@ -1,26 +1,31 @@
 import React, { useContext } from 'react';
-import { CartContext } from '../../context/AddCartContext';
 import './cart.css';
+import { CartContext } from '../../context/AddCartContext';
 
 function Cart() {
-  const { cart } = useContext(CartContext);
+  const { carrito } = useContext(CartContext);
+
+  const total = carrito.reduce((acc, Pokemon) => acc + Pokemon.price * Pokemon.cantidad, 0);
 
   return (
     <div className="cart-container">
       <h1>Carrito de Compras</h1>
-      {cart.length === 0 ? (
+      {carrito.length === 0 ? (
         <p>Aún no se ha agregado ningún Pokémon al carrito.</p>
       ) : (
-        <div>
-          {cart.map((Pokemon) => (
-            <div key={Pokemon.id}>
+        <ul>
+          {carrito.map((Pokemon) => (
+            <li key={Pokemon.id}>
+              <img src={Pokemon.imageUrl} alt={Pokemon.name} />
               <p>{Pokemon.name}</p>
-              <p>Cantidad: {Pokemon.quantity}</p>
+              <p>Cantidad: {Pokemon.cantidad}</p>
               <p>Precio: ${Pokemon.price}</p>
-            </div>
+              <p>Subtotal: ${Pokemon.price * Pokemon.cantidad}</p> 
+            </li>
           ))}
-        </div>
+        </ul>
       )}
+      <p className={carrito.length === 0 ? 'invisible' : 'visible'}>Total: ${total}</p>
     </div>
   );
 }
