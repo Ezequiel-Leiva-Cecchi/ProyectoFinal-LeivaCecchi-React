@@ -26,9 +26,9 @@ function PokemonDetails() {
     <div className="pokemon-details-container">
       <h1>Pokemon Details</h1>
       <div key={pokemon.numeroPokedex}>
-        <h2>{pokemon.name}</h2>
+        <h2>{pokemon.nombre}</h2>
         <img className='image' src={pokemon.img} alt="" />
-        <p>Tipo: {pokemon.types && pokemon?.types.join(', ')}</p>
+        <p>Tipo: {pokemon.tipo && pokemon?.tipo.join(', ')}</p>
         <p className="abilities">Descripcion: {pokemon.descripcion && pokemon?.descripcion.join(', ')}</p>
         <PokemonCount Pokemon={pokemon} />
       </div>
