@@ -4,16 +4,16 @@ import {collection,getDocs} from 'firebase/firestore'
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(true);
 
-  async function getPokemon(db) {
+  async function getPokemons(db) {
     const pokemonCol = collection(db, 'pokemons');
     const pokemonList = getDocs(pokemonCol).then(element=>{
      return element.docs.map(doc => doc.data())
     });
   
     return await pokemonList
-  }
- 
-  export default getPokemon;
+  }
+  export default getPokemons;
+
 
 // const llamdaFS=() => {
 //   const PokemonsColeccion = collection(db,"pokemons");

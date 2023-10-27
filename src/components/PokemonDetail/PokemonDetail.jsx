@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import './pokemonDetail.css';
 import PokemonCount from '../PokemonCount/PokemonCount';
-import {db} from '../../index.js'
-import getPokemon from '../ListaPokemon/Pokemonlist'
+import { db } from '../../index';
+import { doc, getDoc } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 
 function PokemonDetails() {
-  const [pokemon, setPokemon] = useState({});
-  const numeroPokedex ="";
-  // const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
+  const { pokemonName } = useParams(); 
+  const [pokemon, setPokemon] = useState(null);
+  
+  async function getOnePokemon(db, nombre) {
+    const pokemonRef = doc(db, 'pokemons', nombre);
+    const response = await getDoc(pokemonRef);
+    const onePokemon = { ...response.data(), id: response.id };
+    return onePokemon;
+  }
+
   useEffect(() => {
-   getPokemon(db,numeroPokedex)
-   .then(response=>{
-    setPokemon(response);
-   })
-   .catch(error => {
-    console.error('Error al obtener datos de la base de datos:', error);
-  });
-  },[numeroPokedex] ); 
-
-  // if (loading) {
-  //   return <div>Cargando...</div>;
-  // }
-
+    getOnePokemon(db, pokemonName)
+      .then((response) => {
+        setPokemon(response);
+      })
+  }, [db, pokemonName]); 
   return (
     <div className="pokemon-details-container">
       <h1>Pokemon Details</h1>
-      <div key={pokemon.numeroPokedex}>
-        <h2>{pokemon.nombre}</h2>
-        <img className='image' src={pokemon.img} alt="" />
-        <p>Tipo: {pokemon.tipo && pokemon?.tipo.join(', ')}</p>
-        <p className="abilities">Descripcion: {pokemon.descripcion && pokemon?.descripcion.join(', ')}</p>
-        <PokemonCount Pokemon={pokemon} />
-      </div>
+      {pokemon ? (
+        <div>
+          <h2>{pokemon.name}</h2>
+          <img className='image' src={pokemon.img} alt={`Imagen de ${pokemon.name}`} />
+          <p>Tipo: {pokemon.tipo && pokemon.tipo.join(', ')}</p>
+          <p className="abilities">Descripcion: {pokemon.descripcion && pokemon.descripcion.join(', ')}</p>
+          <PokemonCount Pokemon={pokemon} />
+        </div>
+      ) : (
+        <div>Cargando detalles del Pokémon...</div>
+      )}
     </div>
   );
 }

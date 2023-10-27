@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import './card.css';
 import { Link } from 'react-router-dom';
-import getPokemon  from '../ListaPokemon/Pokemonlist';
+import getPokemons  from '../ListaPokemon/Pokemonlist';
 import {db} from '../../index.js'
 
 function Card() {
@@ -9,9 +9,9 @@ function Card() {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [data, setData] = useState([]);
   let response;
-
+console.log(data)
   useEffect(() => {
-    getPokemon(db) // Llama a getPokemon con la base de datos
+    getPokemons(db) // Llama a getPokemon con la base de datos
       .then(response => {
         setData(response);
       })
@@ -19,7 +19,6 @@ function Card() {
         console.error('Error al obtener datos de la base de datos:', error);
       });
   }, []); // El array vacío asegura que esta función se ejecute solo una vez al montar el componente
-
 
   if (data) {
     const filteredData = data.filter(pokemon => {
