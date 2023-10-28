@@ -1,66 +1,68 @@
+/* nav.css */
+
 .container-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #1A0E62;
-    padding: 10px;
-  }
-  
-  .container-nav img {
-    height: 100px; /* Establece una altura fija para mantener la relación de aspecto */
-    padding: 10px;
-    width: auto; /* Ajusta el ancho automáticamente para mantener la proporción original */
-  }
-  
-  .list-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    padding: 30px;
-    list-style: none;
-  }
-  
-  .list-buttons .button-link {
-    background: #FECA05;
-    cursor: pointer;
-    border: none;
-    padding: 3px 32px;
-    color: azure;
-    font-size: 24px;
-    font-weight: bold;
-    position: relative;
-    text-decoration: none;
-    border-radius: 12px;
-    transition: 0.25s;
-  }
-  
-  .button-link:hover {
-    transform: scale(1.1);
-    background-color: #1A0E62;
-    color: #FECA05;
-  }
-  
-  .button-link a {
-    text-decoration: none;
-    color: azure;
-  }
-  
-  .button-link a:hover {
-    color: #FECA05;
-  }
-  
-  .input-busqueda {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .input-busqueda input {
-    padding: 10px;
-  }
-  
-  .input-busqueda svg {
-    color: azure;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1A0E62;
+  padding: 10px;
+}
+
+.container-nav img {
+  height: 100px; 
+  padding: 5px;
+  width: auto;
+}
+
+.list-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 30px;
+  list-style: none;
+}
+
+.list-buttons .button-link {
+  background: #FECA05;
+  cursor: pointer;
+  border: none;
+  padding: 3px 32px;
+  color: azure;
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: 0.25s;
+}
+
+.button-link:hover {
+  transform: scale(1.1);
+  background-color: #1A0E62;
+  color: #FECA05;
+}
+
+.button-link a {
+  text-decoration: none;
+  color: azure;
+}
+
+.button-link a:hover {
+  color: #FECA05;
+}
+
+.input-busqueda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-busqueda input {
+  padding: 10px;
+}
+
+.input-busqueda svg {
+  color: azure;
+}

@@ -5,20 +5,18 @@ import getPokemons  from '../ListaPokemon/Pokemonlist';
 import {db} from '../../index.js'
 
 function Card() {
-  // const { data, loading } = useFech("https://pokeapi.co/api/v2/pokemon?limit=30&offset=0");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [data, setData] = useState([]);
   let response;
-console.log(data)
   useEffect(() => {
-    getPokemons(db) // Llama a getPokemon con la base de datos
+    getPokemons(db) 
       .then(response => {
         setData(response);
       })
       .catch(error => {
         console.error('Error al obtener datos de la base de datos:', error);
       });
-  }, []); // El array vacío asegura que esta función se ejecute solo una vez al montar el componente
+  }, []); 
 
   if (data) {
     const filteredData = data.filter(pokemon => {
@@ -84,18 +82,18 @@ console.log(data)
   );
 }
 
-function mapeoDePokemons(data = [], selectedTypes) {
+function mapeoDePokemons(data = []) {
   return data.map(function (pokemon) {
     const typeClass = pokemon.tipo[0].toLowerCase();
 
     return (
-      <div className={`card-container ${typeClass}`} key={pokemon.nombre}>
-        <li className="card" key={pokemon.nombre}>
-          <img className="image" src={pokemon.img} alt={"Imagen de"} />
+      <div className={`card-container ${typeClass}`} key={pokemon.id}>
+        <li className="card" key={pokemon.id}>
+          <img className="image" src={pokemon.img} alt={`Imagen de ${pokemon.nombre}`} />
           <div className="card-body">
             <p className="card-text">Nombre: {pokemon.nombre}</p>
             <p className={`card-text ${typeClass}`}>Tipo: {pokemon.tipo.join(", ")} </p>
-            <button><Link to={`/detalles/${pokemon.nombre}`}>Más Detalles</Link></button>
+            <button><Link to={`/detalles/${pokemon.id}`}>Más Detalles</Link></button>
           </div>
         </li>
       </div>

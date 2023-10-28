@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {  Items } from './context/AddCartContext';
+import {  Items } from './context/CartContext';
 import Card from './components/Cards/Card';
 import Nav from './components/Navbar/Nav';
 import PokemonCount from './components/PokemonCount/PokemonCount';
