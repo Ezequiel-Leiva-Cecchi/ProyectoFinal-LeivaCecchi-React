@@ -8,23 +8,24 @@ export const Items = ({ children }) => {
 
   const addCart = (item) => {
     setCarrito((prevCarrito) => {
-      const existingItem = prevCarrito.find((pokemon) => pokemon.id === item.id);
+      const existingItemIndex = prevCarrito.findIndex((pokemon) => pokemon.id === item.id);
 
-      if (existingItem) {
-        return prevCarrito.map((pokemon) =>
-          pokemon.id === item.id
-            ? { ...pokemon, cantidad: pokemon.cantidad + item.cantidad }
-            : pokemon
-        );
+      if (existingItemIndex !== -1) {
+        const updatedCarrito = [...prevCarrito];
+        updatedCarrito[existingItemIndex] = {
+          ...updatedCarrito[existingItemIndex],
+          cantidad: updatedCarrito[existingItemIndex].cantidad + item.cantidad,
+        };
+        return updatedCarrito;
       } else {
         return [...prevCarrito, item];
       }
     });
   };
-  
+
   const precioTotal = () => {
     return carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0);
-}
+  }
 
   const clearItem = (item) => {
     Swal.fire({
@@ -46,26 +47,11 @@ export const Items = ({ children }) => {
   };
 
   const clearCart = () => {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "No podrás revertir esto.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar todo'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setCarrito([]);
-        Swal.fire('Carrito vaciado', 'Tu carrito ha sido vaciado exitosamente.', 'success');
-      } else {
-        Swal.fire('Cancelado', 'La acción ha sido cancelada.', 'error');
-      }
-    });
+    setCarrito([]);
   };
 
   return (
-    <CartContext.Provider value={{ carrito, addCart, clearItem, clearCart, precioTotal}}>
+    <CartContext.Provider value={{ carrito, addCart, clearItem, clearCart, precioTotal }}>
       {children}
     </CartContext.Provider>
   );

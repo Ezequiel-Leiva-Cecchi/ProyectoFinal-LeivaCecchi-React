@@ -6,7 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../index';
 
 function PokemonCount({ Pokemon }) {
-  const { carrito, addCart } = useContext(CartContext);
+  const {  carrito, addCart } = useContext(CartContext);
 
   const [count, setCount] = useState(0);
   const [stock, setStock] = useState(0);
@@ -44,37 +44,42 @@ function PokemonCount({ Pokemon }) {
   };
 
   const onAddToCart = () => {
-    if (count > 0) {
+    if (count > 0 && count <= 10) {
       const item = { ...Pokemon, cantidad: count };
       const existingItem = carrito.find((p) => p.id === item.id);
-
+  
       if (existingItem) {
-        if (existingItem.cantidad + item.cantidad <= stock) {
+        if (existingItem.cantidad + item.cantidad <= 10) {
           const updatedCarrito = carrito.map((p) =>
-            p.id === item.id ? { ...p, cantidad: p.cantidad + item.cantidad } : p
+            p.id === item.id
+              ? { ...p, cantidad: p.cantidad + item.cantidad }
+              : p
           );
           addCart(updatedCarrito);
         } else {
-          console.log('Artículo añadido al carrito:', item);
-          toast.error('No se puede agregar más productos al carrito', {
+          toast.error('No puedes agregar más de 10 de este Pokémon', {
             position: 'bottom-right',
           });
         }
       } else {
         if (item.cantidad <= stock) {
           addCart(item);
+          setCount(0);
+          console.log('Artículo añadido al carrito:', item);
+          toast.success('Has agregado exitosamente al carrito', {
+            position: 'bottom-right',
+          });
         } else {
           console.error(`No puedes agregar más de ${stock} de este Pokémon.`);
         }
-
-        setCount(0);
-        console.log('Artículo añadido al carrito:', item);
-        toast.success('Has agregado exitosamente al carrito', {
-          position: 'bottom-right',
-        });
       }
+    } else if (count > 10) {
+      toast.error('No puedes agregar más de 10 de este Pokémon', {
+        position: 'bottom-right',
+      });
     }
   };
+  
 
   return (
     <div>
@@ -89,7 +94,7 @@ function PokemonCount({ Pokemon }) {
       <p>Total: ${precio * count}</p>
       <p>Stock disponible: {stock}</p>
       <button
-       disabled={count === 0 || count > stock || (carrito.find((p) => p.id === Pokemon.id)?.cantidad || 0) >= stock}
+        disabled={count === 0}
         onClick={onAddToCart}
       >
         Comprar
