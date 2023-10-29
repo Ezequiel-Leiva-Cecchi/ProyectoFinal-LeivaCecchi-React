@@ -41,6 +41,8 @@ const Checkout = () => {
                 <input className="input-field" type="text" placeholder="Ingresá tu nombre" {...register("nombre")} />
                 <input className="input-field" type="email" placeholder="Ingresá tu e-mail" {...register("email")} />
                 <input className="input-field" type="phone" placeholder="Ingresá tu teléfono" {...register("telefono")} />
+                <input className="input-field" type="adress" placeholder="Ingresá tu direccion" {...register("direccion")} />
+                <input className="input-field" type="text" placeholder="Ingresá tu numero de tarjeta " {...register("numero de tarjeta")} />
                 <button className="submit-button" type="submit">Comprar</button>
             </form>
         </div>
