@@ -1,45 +1,51 @@
+
+
 footer {
-  margin: 0;
-  padding: 0;
+  background-color: #1A0E62;
+  color: #fff;
+  text-align: center;
+  /* padding: 20px; */
+  /* min-height: 100px;  */
 }
+
 .contactos {
-    background-color: #1A0E62;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .contactos h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .contactos p {
-    font-size: 18px;
-    margin: 5px 0;
-  }
-  
-  .contactos ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .contactos li {
-    margin: 0 10px;
-  }
-  
-  .contactos a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 24px;
-    transition: color 0.3s ease;
-  }
-  
-  .contactos a:hover {
-    color: #0077cc;
-  }
+  background-color: #1A0E62;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.contactos h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.contactos p {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.contactos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.contactos li {
+  margin: 0 10px;
+}
+
+.contactos a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.contactos a:hover {
+  color: #0077cc;
+}

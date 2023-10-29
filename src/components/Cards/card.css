@@ -4,13 +4,13 @@
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
+  justify-content: center; 
+  align-items: center; 
   border-radius: 5px;
 }
 
 .checkbox-label {
-  display: flex; /* Para centrar horizontalmente los elementos internos */
+  display: flex; 
   align-items: center;
   margin-bottom: 10px;
 }
@@ -42,21 +42,25 @@
   border-color: #007bff;
 }
 .no-pokemon-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 20px;
-  font-size: 18px;
+  padding: 40px;
+  font-size: 24px;
   background-color: #f2f2f2;
-  border-radius: 5px;
+  border-radius: 10px; 
   margin-top: 10px;
   color: #555;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 /* Estilos para el contenedor del mensaje de error */
 .error-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 50px;
   flex-direction: column;
   height: 100%;
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import './footer.css';
 export default function Footer() {
     return (
-        <section>
+        <section className='main-container'>
             <>
                 <div className='contactos'>
                     <h2>CONTACTANOS</h2>
