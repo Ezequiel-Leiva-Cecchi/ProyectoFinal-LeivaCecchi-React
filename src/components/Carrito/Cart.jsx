@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../../context/CartContext';
 import './cart.css';
+import Checkout from '../Checkout/Checkout';
+import { Link } from 'react-router-dom';
 
 function Cart() {
   const { carrito, clearCart, clearItem } = useContext(CartContext);
 
   const calcularTotal = () => {
     return carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
-  };
-
-  const comprarTodo = () => {
-    console.log('Compra realizada con éxito');
   };
 
   return (
@@ -40,7 +38,7 @@ function Cart() {
         <div className="cart-total">
           <p>Total: ${calcularTotal()}</p>
           <button onClick={clearCart}>Vaciar Carrito</button>
-          <button onClick={comprarTodo}>Comprar Todo</button>
+          <button ><Link to ={Checkout}>Finalizar compra </Link></button>
         </div>
       )}
     </div>

@@ -89,7 +89,7 @@ function PokemonCount({ Pokemon }) {
       <p>Total: ${precio * count}</p>
       <p>Stock disponible: {stock}</p>
       <button
-        disabled={count === 0 || count >= stock || (carrito.find((p) => p.id === Pokemon.id)?.cantidad || 0) >= stock}
+       disabled={count === 0 || count > stock || (carrito.find((p) => p.id === Pokemon.id)?.cantidad || 0) >= stock}
         onClick={onAddToCart}
       >
         Comprar

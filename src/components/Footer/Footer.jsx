@@ -8,7 +8,7 @@ export default function Footer() {
                     <h2>CONTACTANOS</h2>
                     <div>
                         <p>telefono:+5491144211032</p>
-                        <p>gmail:falcongaming@gmail.com</p>
+                        <p>gmail:LaGranjaPokémonCecchiman@gmail.com</p>
                     </div>
                     <ul>
                         <il>

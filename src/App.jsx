@@ -7,6 +7,7 @@ import Nosotros from './components/QuienesSomos/Nosotros';
 import Footer from './components/Footer/Footer';
 import PokemonDetail from './components/PokemonDetail/PokemonDetail';
 import Cart from './components/Carrito/Cart';
+import Checkout from './components/Checkout/Checkout';
 
 
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/detalles/:pokemonName" element={<PokemonDetail />} />
             <Route path="/contador" element={<PokemonCount />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </div>
         <div className="footer-container"> 

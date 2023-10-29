@@ -21,6 +21,10 @@ export const Items = ({ children }) => {
       }
     });
   };
+  
+  const precioTotal = () => {
+    return carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0);
+}
 
   const clearItem = (item) => {
     Swal.fire({
@@ -61,7 +65,7 @@ export const Items = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ carrito, addCart, clearItem, clearCart }}>
+    <CartContext.Provider value={{ carrito, addCart, clearItem, clearCart, precioTotal}}>
       {children}
     </CartContext.Provider>
   );
