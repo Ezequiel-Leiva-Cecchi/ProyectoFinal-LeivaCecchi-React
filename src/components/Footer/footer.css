@@ -4,8 +4,6 @@ footer {
   background-color: #1A0E62;
   color: #fff;
   text-align: center;
-  /* padding: 20px; */
-  /* min-height: 100px;  */
 }
 
 .contactos {
@@ -22,6 +20,7 @@ footer {
 
 .contactos p {
   font-size: 18px;
+  color: aliceblue;
   margin: 5px 0;
 }
 

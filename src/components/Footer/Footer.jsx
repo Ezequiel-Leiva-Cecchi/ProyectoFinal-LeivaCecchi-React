@@ -7,8 +7,8 @@ export default function Footer() {
                 <div className='contactos'>
                     <h2>CONTACTANOS</h2>
                     <div>
-                        <p>telefono:+5491144211032</p>
-                        <p>gmail:LaGranjaPokémonCecchiman@gmail.com</p>
+                        <p>TELEFONO:+5491144211032</p>
+                        <p>GMail:LaGranjaPokémonCecchiman@gmail.com</p>
                     </div>
                     <ul>
                         <il>
