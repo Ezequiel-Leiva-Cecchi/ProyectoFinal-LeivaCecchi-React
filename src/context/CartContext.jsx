@@ -1,5 +1,5 @@
-import React, { createContext, useState } from "react";
-import Swal from "sweetalert2";
+import React, { createContext, useState } from 'react';
+import Swal from 'sweetalert2';
 
 export const CartContext = createContext();
 
@@ -7,25 +7,29 @@ export const Items = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
 
   const addCart = (item) => {
-    setCarrito((prevCarrito) => {
-      const existingItemIndex = prevCarrito.findIndex((pokemon) => pokemon.id === item.id);
+    if (carrito.length < 10) {
+      setCarrito((prevCarrito) => {
+        const existingItemIndex = prevCarrito.findIndex((pokemon) => pokemon.id === item.id);
 
-      if (existingItemIndex !== -1) {
-        const updatedCarrito = [...prevCarrito];
-        updatedCarrito[existingItemIndex] = {
-          ...updatedCarrito[existingItemIndex],
-          cantidad: updatedCarrito[existingItemIndex].cantidad + item.cantidad,
-        };
-        return updatedCarrito;
-      } else {
-        return [...prevCarrito, item];
-      }
-    });
+        if (existingItemIndex !== -1) {
+          const updatedCarrito = [...prevCarrito];
+          updatedCarrito[existingItemIndex] = {
+            ...updatedCarrito[existingItemIndex],
+            cantidad: updatedCarrito[existingItemIndex].cantidad + item.cantidad,
+          };
+          return updatedCarrito;
+        } else {
+          return [...prevCarrito, { ...item, cantidad: item.cantidad }];
+        }
+      });
+    } else {
+      Swal.fire('Límite alcanzado', 'No puedes agregar más de 10 elementos al carrito.', 'error');
+    }
   };
 
   const precioTotal = () => {
     return carrito.reduce((acc, prod) => acc + prod.precio * prod.cantidad, 0);
-  }
+  };
 
   const clearItem = (item) => {
     Swal.fire({

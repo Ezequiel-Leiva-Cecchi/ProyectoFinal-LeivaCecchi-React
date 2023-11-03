@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../../context/CartContext';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../index';
 
 function PokemonCount({ Pokemon }) {
-  const {  carrito, addCart } = useContext(CartContext);
+  const { carrito, addCart } = useContext(CartContext);
 
   const [count, setCount] = useState(0);
   const [stock, setStock] = useState(0);
@@ -32,8 +32,12 @@ function PokemonCount({ Pokemon }) {
   }, [Pokemon.id]);
 
   const incrementCount = () => {
-    if (count < stock) {
+    if (count < stock && count < 10) {
       setCount(count + 1);
+    } else {
+      toast.error('No puedes agregar más de 10 elementos de este Pokémon', {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -44,49 +48,50 @@ function PokemonCount({ Pokemon }) {
   };
 
   const onAddToCart = () => {
-    if (count > 0 && count <= 10) {
-      const item = { ...Pokemon, cantidad: count };
-      const existingItem = carrito.find((p) => p.id === item.id);
-  
-      if (existingItem) {
-        if (existingItem.cantidad + item.cantidad <= 10) {
-          const updatedCarrito = carrito.map((p) =>
-            p.id === item.id
-              ? { ...p, cantidad: p.cantidad + item.cantidad }
-              : p
-          );
-          addCart(updatedCarrito);
+    if (Pokemon) {
+      if (count > 0 && count <= stock) {
+        const item = { ...Pokemon, cantidad: count };
+        const existingItem = carrito.find((p) => p.id === item.id);
+
+        if (existingItem) {
+
+          if (existingItem.cantidad + count <= 10) {
+            const updatedCarrito = carrito.map((p) =>
+              p.id === item.id ? { ...p, cantidad: p.cantidad + item.cantidad } : p
+            );
+            addCart(updatedCarrito);
+            setCount(0);
+            toast.success('Has agregado exitosamente al carrito', {
+              position: 'bottom-right',
+            });
+          } else {
+            toast.error('No puedes agregar más de 10 elementos de este Pokémon al carrito', {
+              position: 'bottom-right',
+            });
+          }
         } else {
-          toast.error('No puedes agregar más de 10 de este Pokémon', {
+          addCart(item);
+          setCount(0);
+          toast.success('Has agregado exitosamente al carrito', {
             position: 'bottom-right',
           });
         }
       } else {
-        if (item.cantidad <= stock) {
-          addCart(item);
-          setCount(0);
-          console.log('Artículo añadido al carrito:', item);
-          toast.success('Has agregado exitosamente al carrito', {
-            position: 'bottom-right',
-          });
-        } else {
-          console.error(`No puedes agregar más de ${stock} de este Pokémon.`);
-        }
+        toast.error('Selecciona una cantidad válida y asegúrate de que haya suficiente stock', {
+          position: 'bottom-right',
+        });
       }
-    } else if (count > 10) {
-      toast.error('No puedes agregar más de 10 de este Pokémon', {
-        position: 'bottom-right',
-      });
+    } else {
+      console.error('Pokemon is undefined or empty.');
     }
-  };
-  
+  }
 
   return (
     <div>
       <div>
         <button onClick={decrementCount}>-</button>
         <span>{count}</span>
-        <button onClick={incrementCount} disabled={count >= stock}>
+        <button onClick={incrementCount} disabled={count >= stock || count >= 10}>
           +
         </button>
       </div>
@@ -94,7 +99,7 @@ function PokemonCount({ Pokemon }) {
       <p>Total: ${precio * count}</p>
       <p>Stock disponible: {stock}</p>
       <button
-        disabled={count === 0}
+        disabled={count === 0 || count > stock}
         onClick={onAddToCart}
       >
         Comprar
