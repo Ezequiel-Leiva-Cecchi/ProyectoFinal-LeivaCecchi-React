@@ -1,0 +1,66 @@
+name: Publicar NovaDex en GitHub Pages
+
+on:
+  push:
+    branches:
+      - agent/pokedex-rebuild
+  workflow_dispatch:
+
+# GitHub Pages utiliza un artefacto firmado; no necesita secretos propios.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    name: Verificar y construir
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el proyecto
+        uses: actions/checkout@v6
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas y análisis
+        run: npm run lint && npm run test
+
+      # El router hash evita errores 404 al recargar una ficha en GitHub Pages.
+      - name: Construir para la ruta del repositorio
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /ProyectoFinal-LeivaCecchi-React/
+          VITE_ROUTER_MODE: hash
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Preparar artefacto
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  publicar:
+    name: Publicar sitio
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

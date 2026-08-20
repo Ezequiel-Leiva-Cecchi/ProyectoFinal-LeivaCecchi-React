@@ -1,0 +1,308 @@
+import { useDeferredValue, useEffect, useMemo, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { ArrowRight, Dices, Search, Shield, Sparkles } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  getGeneration,
+  getGenerations,
+  getOfficialArtworkUrl,
+  getPokemonIndex,
+  getType,
+} from '../api/pokeApi';
+import { PAGE_SIZE, POKEMON_TYPES } from '../config/pokemon';
+import PokemonGrid from '../components/PokemonGrid';
+import Pagination from '../components/Pagination';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import {
+  extractResourceId,
+  filterPokemonIndex,
+  formatGenerationName,
+  sortPokemonIndex,
+} from '../utils/pokemon';
+
+export default function PokedexPage() {
+  useDocumentTitle('Pokédex Nacional');
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchInputRef = useRef(null);
+  const search = searchParams.get('q') ?? '';
+  const requestedType = searchParams.get('tipo') ?? 'all';
+  const type = POKEMON_TYPES.some((entry) => entry.key === requestedType) ? requestedType : 'all';
+  const requestedGeneration = searchParams.get('generacion') ?? 'all';
+  const generation = requestedGeneration === 'all' || /^generation-[ivxlcdm]+$/.test(requestedGeneration)
+    ? requestedGeneration
+    : 'all';
+  const requestedSort = searchParams.get('orden') ?? 'id-asc';
+  const sortBy = ['id-asc', 'id-desc', 'name-asc', 'name-desc'].includes(requestedSort)
+    ? requestedSort
+    : 'id-asc';
+  const requestedPage = Math.max(Number.parseInt(searchParams.get('pagina') ?? '1', 10) || 1, 1);
+  const deferredSearch = useDeferredValue(search);
+
+  const indexQuery = useQuery({
+    queryKey: ['pokedex-index'],
+    queryFn: ({ signal }) => getPokemonIndex({ signal }),
+  });
+  const generationsQuery = useQuery({
+    queryKey: ['generations'],
+    queryFn: ({ signal }) => getGenerations({ signal }),
+  });
+  const typeQuery = useQuery({
+    queryKey: ['type', type],
+    queryFn: ({ signal }) => getType(type, { signal }),
+    enabled: type !== 'all',
+  });
+  const generationQuery = useQuery({
+    queryKey: ['generation', generation],
+    queryFn: ({ signal }) => getGeneration(generation, { signal }),
+    enabled: generation !== 'all',
+  });
+
+  const filteredPokemon = useMemo(() => {
+    const typeIds =
+      type === 'all' || !typeQuery.data
+        ? null
+        : new Set(typeQuery.data.pokemon.map((entry) => extractResourceId(entry.pokemon.url)));
+    const generationIds =
+      generation === 'all' || !generationQuery.data
+        ? null
+        : new Set(
+            generationQuery.data.pokemon_species.map((entry) => extractResourceId(entry.url)),
+          );
+
+    const filtered = filterPokemonIndex(indexQuery.data?.results ?? [], {
+      search: deferredSearch,
+      typeIds,
+      generationIds,
+    });
+    return sortPokemonIndex(filtered, sortBy);
+  }, [deferredSearch, generation, generationQuery.data, indexQuery.data, sortBy, type, typeQuery.data]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPokemon.length / PAGE_SIZE));
+  const page = Math.min(requestedPage, totalPages);
+  const visiblePokemon = filteredPokemon.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const filterIsLoading =
+    indexQuery.isPending ||
+    (type !== 'all' && typeQuery.isPending) ||
+    (generation !== 'all' && generationQuery.isPending);
+  const queryError = indexQuery.error || typeQuery.error || generationQuery.error;
+  const hasFilters = search || type !== 'all' || generation !== 'all' || sortBy !== 'id-asc';
+
+  // Los filtros se guardan en la URL: al volver desde una ficha se conserva
+  // exactamente la búsqueda, y el enlace también se puede compartir.
+  const updateFilter = (key, defaultValue) => (event) => {
+    const value = event.target.value;
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (!value || value === defaultValue) next.delete(key);
+      else next.set(key, value);
+      next.delete('pagina');
+      return next;
+    }, { replace: true });
+  };
+
+  const clearFilters = () => {
+    setSearchParams({}, { replace: true });
+    searchInputRef.current?.focus();
+  };
+
+  const changePage = (nextPage) => {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (nextPage === 1) next.delete('pagina');
+      else next.set('pagina', String(nextPage));
+      return next;
+    });
+  };
+
+  const openRandomPokemon = () => {
+    const total = indexQuery.data?.count;
+    if (!total) return;
+    navigate(`/pokemon/${Math.floor(Math.random() * total) + 1}`);
+  };
+
+  // La tecla "/" lleva al buscador desde cualquier zona no editable.
+  useEffect(() => {
+    const focusSearch = (event) => {
+      const tag = document.activeElement?.tagName;
+      if (event.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', focusSearch);
+    return () => window.removeEventListener('keydown', focusSearch);
+  }, []);
+
+  const retryQueries = () => {
+    indexQuery.refetch();
+    if (type !== 'all') typeQuery.refetch();
+    if (generation !== 'all') generationQuery.refetch();
+  };
+
+  return (
+    <>
+      <section className="pokedex-hero">
+        <div className="pokedex-hero__glow" aria-hidden="true" />
+        <div className="pokedex-hero__inner page-shell">
+          <div className="pokedex-hero__copy">
+            <p className="eyebrow">
+              <span className="status-dot" aria-hidden="true" /> Sistema Pokédex activo
+            </p>
+            <h1>
+              Toda la Pokédex.
+              <span> Una sola misión.</span>
+            </h1>
+            <p className="pokedex-hero__intro">
+              Explorá cada especie registrada, descubrí sus evoluciones y armá el equipo que
+              llevarías a tu propia aventura.
+            </p>
+
+            <label className="hero-search">
+              <span className="sr-only">Buscar por nombre o número</span>
+              <Search size={22} aria-hidden="true" />
+              <input
+                ref={searchInputRef}
+                type="search"
+                value={search}
+                placeholder="Buscá Pikachu, Gengar o #094..."
+                onChange={updateFilter('q', '')}
+                aria-controls="catalog-results"
+                aria-keyshortcuts="/"
+              />
+              <span className="hero-search__hint">Tecla /</span>
+            </label>
+
+            <div className="hero-actions">
+              <a className="button" href="#catalog-results">
+                Explorar especies <ArrowRight size={18} aria-hidden="true" />
+              </a>
+              <Link className="button button--secondary" to="/equipo">
+                <Shield size={18} aria-hidden="true" /> Armar mi equipo
+              </Link>
+              <button
+                className="button button--secondary"
+                type="button"
+                disabled={!indexQuery.data?.count}
+                onClick={openRandomPokemon}
+              >
+                <Dices size={18} aria-hidden="true" /> Sorprendeme
+              </button>
+            </div>
+          </div>
+
+          <div className="pokedex-hero__visual" aria-hidden="true">
+            <span className="orbit orbit--one" />
+            <span className="orbit orbit--two" />
+            <span className="hero-number">0384</span>
+            <img src={getOfficialArtworkUrl(384)} alt="" />
+            <div className="hero-scan-card">
+              <Sparkles size={16} />
+              <span>Objeto identificado</span>
+              <strong>Rayquaza</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-stats page-shell" aria-label="Resumen de la Pokédex">
+          <div>
+            <strong>{indexQuery.data?.count?.toLocaleString('es-AR') ?? '—'}</strong>
+            <span>Especies nacionales</span>
+          </div>
+          <div>
+            <strong>18</strong>
+            <span>Tipos elementales</span>
+          </div>
+          <div>
+            <strong>{generationsQuery.data?.count ?? '—'}</strong>
+            <span>Generaciones</span>
+          </div>
+          <div>
+            <strong>6</strong>
+            <span>Lugares en tu equipo</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="catalog-results" className="catalog-section page-shell" tabIndex="-1">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Archivo nacional</p>
+            <h2>Encontrá a tu próximo compañero</h2>
+          </div>
+          <p>
+            {filterIsLoading
+              ? 'Consultando registros...'
+              : `${filteredPokemon.length.toLocaleString('es-AR')} especies encontradas`}
+          </p>
+        </div>
+
+        <div className="filter-panel" aria-label="Filtros de la Pokédex">
+          <label className="filter-field filter-field--search">
+            <span>Buscar</span>
+            <div>
+              <Search size={18} aria-hidden="true" />
+              <input
+                type="search"
+                value={search}
+                placeholder="Nombre o número"
+                onChange={updateFilter('q', '')}
+              />
+            </div>
+          </label>
+
+          <label className="filter-field">
+            <span>Tipo</span>
+            <select value={type} onChange={updateFilter('tipo', 'all')}>
+              <option value="all">Todos los tipos</option>
+              {POKEMON_TYPES.map((entry) => (
+                <option key={entry.key} value={entry.key}>
+                  {entry.label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="filter-field">
+            <span>Generación</span>
+            <select value={generation} onChange={updateFilter('generacion', 'all')}>
+              <option value="all">Todas</option>
+              {generationsQuery.data?.results.map((entry) => (
+                <option key={entry.name} value={entry.name}>
+                  {formatGenerationName(entry.name)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="filter-field">
+            <span>Orden</span>
+            <select value={sortBy} onChange={updateFilter('orden', 'id-asc')}>
+              <option value="id-asc">Nº menor a mayor</option>
+              <option value="id-desc">Nº mayor a menor</option>
+              <option value="name-asc">Nombre A–Z</option>
+              <option value="name-desc">Nombre Z–A</option>
+            </select>
+          </label>
+
+          <button
+            className="filter-reset"
+            type="button"
+            onClick={clearFilters}
+            disabled={!hasFilters}
+          >
+            Limpiar filtros
+          </button>
+        </div>
+
+        <PokemonGrid
+          pokemon={visiblePokemon}
+          isLoading={filterIsLoading}
+          error={queryError}
+          onRetry={retryQueries}
+        />
+        <Pagination page={page} totalPages={totalPages} onPageChange={changePage} />
+      </section>
+    </>
+  );
+}

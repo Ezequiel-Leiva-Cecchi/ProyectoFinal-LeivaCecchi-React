@@ -1,0 +1,741 @@
+/* Marca visual original inspirada en el lenguaje de una Poké Ball. */
+.pokeball-mark {
+  overflow: visible;
+}
+
+.pokeball-mark__base {
+  fill: #f7f9ff;
+  stroke: #07111f;
+  stroke-width: 6;
+}
+
+.pokeball-mark__top {
+  fill: var(--color-primary);
+}
+
+.pokeball-mark__line {
+  fill: none;
+  stroke: #07111f;
+  stroke-width: 6;
+}
+
+.pokeball-mark__button {
+  fill: #f7f9ff;
+  stroke: #07111f;
+  stroke-width: 5;
+}
+
+.pokeball-mark__core {
+  fill: var(--color-accent);
+}
+
+/* Encabezado persistente y navegación principal. */
+.site-header {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  border-bottom: 1px solid var(--color-line);
+  background: rgb(4 10 19 / 76%);
+  backdrop-filter: blur(22px) saturate(135%);
+}
+
+.site-header__inner {
+  position: relative;
+  display: flex;
+  min-height: var(--header-height);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand__mark {
+  width: 2.75rem;
+  filter: drop-shadow(0 0 0.8rem rgb(78 216 208 / 18%));
+  transition: transform 220ms ease;
+}
+
+.brand:hover .brand__mark {
+  transform: rotate(14deg);
+}
+
+.brand__copy {
+  display: grid;
+  line-height: 1.05;
+}
+
+.brand__copy strong {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  letter-spacing: -0.03em;
+}
+
+.brand__copy small {
+  margin-top: 0.25rem;
+  color: var(--color-subtle);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  display: inline-flex;
+  min-height: 2.65rem;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.nav-link:hover,
+.nav-link--active {
+  border-color: var(--color-line);
+  background: rgb(255 255 255 / 5%);
+  color: var(--color-text);
+}
+
+.nav-link--active {
+  border-color: rgb(78 216 208 / 24%);
+  background: rgb(78 216 208 / 9%);
+}
+
+.nav-link__count {
+  display: grid;
+  min-width: 1.25rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.67rem;
+  line-height: 1;
+}
+
+.icon-button,
+.favorite-button {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--color-line-strong);
+  background: rgb(8 22 38 / 78%);
+  color: var(--color-text);
+}
+
+.nav-toggle {
+  display: none;
+  width: 2.8rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+/* Pie de página y atribuciones. */
+.site-footer {
+  margin-top: clamp(4rem, 9vw, 8rem);
+  padding-block: 3rem 1.4rem;
+  border-top: 1px solid var(--color-line);
+  background: rgb(4 10 19 / 65%);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 3rem;
+}
+
+.footer-brand {
+  display: flex;
+  max-width: 31rem;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.footer-brand__mark {
+  width: 3.2rem;
+  flex: 0 0 auto;
+}
+
+.footer-brand strong {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.footer-brand p {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+}
+
+.footer-links {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.footer-links a:hover {
+  color: var(--color-accent-soft);
+}
+
+.site-footer__legal {
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-subtle);
+  font-size: 0.74rem;
+}
+
+/* Cargas y paneles de estado compartidos. */
+.page-loader {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  align-content: center;
+  gap: 1rem;
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.page-loader__mark {
+  width: 3.5rem;
+  animation: pulse-ring 1.2s ease-in-out infinite;
+}
+
+.state-panel {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  align-content: center;
+  padding: 2rem;
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius-large);
+  background: rgb(12 26 44 / 48%);
+  text-align: center;
+}
+
+.state-panel__icon {
+  display: grid;
+  width: 4rem;
+  aspect-ratio: 1;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: rgb(78 216 208 / 9%);
+  color: var(--color-accent);
+}
+
+.state-panel--error .state-panel__icon {
+  background: rgb(255 79 104 / 9%);
+  color: var(--color-danger);
+}
+
+.state-panel h2 {
+  margin-bottom: 0.6rem;
+  font-size: 1.6rem;
+}
+
+.state-panel p {
+  max-width: 34rem;
+  margin-bottom: 1.3rem;
+  color: var(--color-muted);
+}
+
+/* Badges de tipo reutilizados en cards y detalles. */
+.type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.type-badge {
+  display: inline-flex;
+  min-height: 1.8rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--type-color) 42%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--type-color) 13%, transparent);
+  color: color-mix(in srgb, var(--type-color) 68%, white);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.type-badge__dot {
+  width: 0.38rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--type-color);
+  box-shadow: 0 0 0.7rem var(--type-color);
+}
+
+.type-badge--loading {
+  --type-color: #7690a9;
+  animation: pulse-ring 1.4s ease infinite;
+}
+
+.card-data-note {
+  color: var(--color-subtle);
+  font-size: 0.72rem;
+}
+
+/* Botón de favoritos independiente para evitar elementos interactivos anidados. */
+.favorite-button {
+  width: 2.55rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.favorite-button:hover {
+  border-color: rgb(255 79 104 / 45%);
+  color: #ff9aaa;
+  transform: scale(1.06);
+}
+
+.favorite-button--active {
+  border-color: rgb(255 79 104 / 48%);
+  background: rgb(255 79 104 / 14%);
+  color: var(--color-primary);
+}
+
+.favorite-button--large {
+  width: 3.25rem;
+}
+
+/* Cards principales de la Pokédex. */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.pokemon-card {
+  --card-accent: var(--color-accent);
+  position: relative;
+  min-width: 0;
+  min-height: 23.5rem;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 20%, var(--color-line));
+  border-radius: var(--radius-medium);
+  background:
+    radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--card-accent) 17%, transparent), transparent 46%),
+    linear-gradient(160deg, rgb(17 36 58 / 92%), rgb(7 18 32 / 96%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%), var(--shadow-small);
+  isolation: isolate;
+  overflow: hidden;
+  animation: card-arrive 460ms ease both;
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.pokemon-card::after {
+  position: absolute;
+  z-index: -1;
+  right: -18%;
+  bottom: -20%;
+  width: 10rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 22%, transparent);
+  border-radius: 50%;
+  content: '';
+}
+
+.pokemon-card:hover {
+  border-color: color-mix(in srgb, var(--card-accent) 48%, transparent);
+  box-shadow: 0 1.7rem 3.8rem rgb(0 0 0 / 34%), 0 0 2.8rem color-mix(in srgb, var(--card-accent) 11%, transparent);
+  transform: translateY(-0.45rem);
+}
+
+.pokemon-card__favorite {
+  position: absolute;
+  z-index: 4;
+  top: 0.9rem;
+  right: 0.9rem;
+}
+
+.pokemon-card__link {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto minmax(12.5rem, 1fr) auto;
+}
+
+.pokemon-card__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 4rem 0 1rem;
+  color: color-mix(in srgb, var(--card-accent) 55%, white);
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.pokemon-card__artwork {
+  position: relative;
+  display: grid;
+  min-height: 13rem;
+  place-items: center;
+  padding: 0.7rem 1rem 0;
+}
+
+.pokemon-card__halo {
+  position: absolute;
+  width: 70%;
+  max-width: 11rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 25%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--card-accent) 12%, transparent), transparent 65%);
+  box-shadow: inset 0 0 2rem color-mix(in srgb, var(--card-accent) 8%, transparent);
+}
+
+.pokemon-card__artwork img {
+  position: relative;
+  z-index: 1;
+  width: min(82%, 12.5rem);
+  max-height: 12.5rem;
+  object-fit: contain;
+  filter: drop-shadow(0 1.2rem 1.1rem rgb(0 0 0 / 32%));
+  transition: filter 220ms ease, transform 220ms ease;
+}
+
+.pokemon-card:hover .pokemon-card__artwork img {
+  filter: drop-shadow(0 1.5rem 1.25rem rgb(0 0 0 / 42%));
+  transform: translateY(-0.35rem) scale(1.055);
+}
+
+.pokemon-card__body {
+  position: relative;
+  padding: 1.05rem;
+  border-top: 1px solid var(--color-line);
+  background: rgb(5 15 27 / 38%);
+}
+
+.pokemon-card__body h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.2rem, 2.3vw, 1.55rem);
+  letter-spacing: -0.035em;
+}
+
+.pokemon-card--skeleton {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.skeleton {
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgb(255 255 255 / 4%) 25%, rgb(255 255 255 / 9%) 50%, rgb(255 255 255 / 4%) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.4s linear infinite;
+}
+
+.skeleton--number { width: 4rem; height: 0.75rem; }
+.skeleton--artwork { width: 75%; aspect-ratio: 1; place-self: center; border-radius: 50%; }
+.skeleton--name { width: 72%; height: 1.5rem; }
+.skeleton--type { width: 45%; height: 1.6rem; }
+
+/* Controles del catálogo y paginación. */
+.filter-panel {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1.5fr) repeat(3, minmax(9rem, 1fr)) auto;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: rgb(9 24 40 / 74%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+  backdrop-filter: blur(18px);
+}
+
+.filter-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.filter-field > span {
+  color: var(--color-subtle);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.filter-field input,
+.filter-field select {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.75rem;
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  outline: none;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+  border-color: rgb(78 216 208 / 55%);
+  box-shadow: 0 0 0 3px rgb(78 216 208 / 10%);
+}
+
+.filter-field--search > div {
+  position: relative;
+}
+
+.filter-field--search svg {
+  position: absolute;
+  top: 50%;
+  left: 0.8rem;
+  color: var(--color-subtle);
+  transform: translateY(-50%);
+}
+
+.filter-field--search input {
+  padding-left: 2.35rem;
+}
+
+.filter-reset {
+  min-height: 2.85rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.filter-reset:not(:disabled):hover {
+  border-color: rgb(255 79 104 / 42%);
+  color: #ff9cad;
+}
+
+.filter-reset:disabled {
+  opacity: 0.42;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.pagination p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.pagination__button {
+  display: inline-flex;
+  min-height: 2.8rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: rgb(12 28 46 / 72%);
+  color: var(--color-text);
+  font-weight: 750;
+}
+
+.pagination__button:hover:not(:disabled) {
+  border-color: rgb(78 216 208 / 45%);
+}
+
+.pagination__button:disabled {
+  opacity: 0.35;
+}
+
+/* Estadísticas y árboles evolutivos de la ficha. */
+.stats-panel {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 2rem;
+  padding: clamp(1.2rem, 4vw, 2rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: linear-gradient(135deg, rgb(16 35 56 / 82%), rgb(7 18 32 / 78%));
+}
+
+.stats-panel__summary {
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+  align-content: center;
+  border: 1px solid color-mix(in srgb, var(--detail-accent) 28%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--detail-accent) 13%, transparent), transparent 68%);
+}
+
+.stats-panel__summary span {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stats-panel__summary strong {
+  color: color-mix(in srgb, var(--detail-accent) 60%, white);
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+}
+
+.stats-list {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 7.5rem 2.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.stat-row strong {
+  color: var(--color-text);
+  text-align: right;
+}
+
+.stat-row__track {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 6%);
+  overflow: hidden;
+}
+
+.stat-row__track span {
+  display: block;
+  width: var(--stat-value);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--detail-accent), color-mix(in srgb, var(--detail-accent) 52%, white));
+  box-shadow: 0 0 0.8rem color-mix(in srgb, var(--detail-accent) 34%, transparent);
+}
+
+.evolution-tree {
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: rgb(9 23 39 / 68%);
+  overflow-x: auto;
+}
+
+.evolution-branch,
+.evolution-children,
+.evolution-child {
+  display: flex;
+  align-items: center;
+}
+
+.evolution-children {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.evolution-child {
+  gap: 0.7rem;
+}
+
+.evolution-node {
+  display: grid;
+  width: 9.2rem;
+  min-width: 9.2rem;
+  place-items: center;
+  padding: 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: rgb(16 35 56 / 76%);
+  text-align: center;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.evolution-node:hover {
+  border-color: color-mix(in srgb, var(--detail-accent) 42%, transparent);
+  transform: translateY(-0.2rem);
+}
+
+.evolution-node img {
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: contain;
+}
+
+.evolution-node strong {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.evolution-node small,
+.evolution-node__number {
+  color: var(--color-subtle);
+  font-size: 0.65rem;
+}
+
+.evolution-arrow {
+  flex: 0 0 auto;
+  color: var(--detail-accent);
+}
+
+.section-note {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.section-note--error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgb(255 79 104 / 28%);
+  border-radius: var(--radius-small);
+  background: rgb(255 79 104 / 7%);
+}
+
+.section-note--error p {
+  margin: 0;
+}
+
+.section-note--error button,
+.team-member-error button {
+  border: 0;
+  background: transparent;
+  color: var(--color-accent-soft);
+  font-weight: 750;
+}
