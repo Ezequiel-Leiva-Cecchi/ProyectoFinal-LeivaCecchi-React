@@ -23,4 +23,20 @@ describe('Team Lab', () => {
     expect(getTeamWeaknesses(team).find((entry) => entry.type === 'fire')).toEqual({ type: 'fire', count: 2 });
     expect(inferRole(pokemon(3, 'normal', [70, 140, 60, 40, 60, 120]))).toBe('Atacante físico veloz');
   });
+
+  it('evita repetir la formación anterior incluso con la misma selección aleatoria', () => {
+    const pool = Array.from({ length: 12 }, (_, index) => pokemon(index + 1, ['grass', 'fire', 'water', 'electric', 'steel', 'fairy'][index % 6]));
+    const first = buildRecommendedTeam(pool, { random: () => 0, strategy: 'balanced' });
+    const firstIds = first.members.map((member) => member.pokemon.id);
+    const second = buildRecommendedTeam(pool, {
+      random: () => 0,
+      strategy: 'balanced',
+      previousTeamIds: firstIds,
+    });
+    const firstSignature = [...firstIds].sort((a, b) => a - b).join('-');
+    const secondSignature = second.members.map((member) => member.pokemon.id).sort((a, b) => a - b).join('-');
+
+    expect(secondSignature).not.toBe(firstSignature);
+    expect(second.strategy.label).toBe('Equilibrado');
+  });
 });

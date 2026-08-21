@@ -44,6 +44,13 @@ const statsOf = (pokemon) => Object.fromEntries(
 );
 const typesOf = (pokemon) => pokemon.types.map((entry) => entry.type.name);
 
+const STRATEGIES = {
+  balanced: { id: 'balanced', label: 'Equilibrado', description: 'Combina cobertura, potencia y resistencia.' },
+  offensive: { id: 'offensive', label: 'Ofensivo', description: 'Prioriza presión física y especial.' },
+  fast: { id: 'fast', label: 'Veloz', description: 'Busca tomar la iniciativa en combate.' },
+  resilient: { id: 'resilient', label: 'Resistente', description: 'Favorece equipos capaces de aguantar golpes.' },
+};
+
 export function inferRole(pokemon, format = 'singles') {
   const stats = statsOf(pokemon);
   const physical = (stats.attack ?? 0) + (stats.speed ?? 0) * 0.55;
@@ -80,21 +87,65 @@ function candidateScore(candidate, selected, options) {
   const formatBonus = options.format === 'doubles'
     ? ((stats.hp ?? 0) + (stats.defense ?? 0) + (stats['special-defense'] ?? 0)) * 0.08
     : (stats.speed ?? 0) * 0.18;
-  return baseTotal * 0.12 + newCoverage.size * 24 + novelty + favoriteBonus + formatBonus - sharedWeaknesses * 70;
+  const strategyBonus = {
+    offensive: ((stats.attack ?? 0) + (stats['special-attack'] ?? 0)) * 0.16,
+    fast: (stats.speed ?? 0) * 0.34,
+    resilient: ((stats.hp ?? 0) + (stats.defense ?? 0) + (stats['special-defense'] ?? 0)) * 0.13,
+    balanced: baseTotal * 0.05,
+  }[options.strategy.id];
+  const previousSlotPenalty = options.previousTeamIds[selected.length] === candidate.id ? 55 : 0;
+  return baseTotal * 0.12 + newCoverage.size * 24 + novelty + favoriteBonus + formatBonus
+    + strategyBonus - sharedWeaknesses * 70 - previousSlotPenalty;
+}
+
+function weightedPick(candidates, random) {
+  const shortlist = candidates.slice(0, Math.min(6, candidates.length));
+  const weights = shortlist.map((_, index) => (shortlist.length - index) ** 2);
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let target = random() * total;
+  for (let index = 0; index < shortlist.length; index += 1) {
+    target -= weights[index];
+    if (target <= 0) return shortlist[index];
+  }
+  return shortlist[0];
 }
 
 export function buildRecommendedTeam(pokemon, options = {}) {
   const settings = {
-    format: 'casual', noLegendaries: true, preferFavorites: true, favoriteIds: [], ...options,
+    format: 'casual', noLegendaries: true, preferFavorites: true, favoriteIds: [],
+    previousTeamIds: [], random: Math.random, ...options,
   };
+  const strategyList = Object.values(STRATEGIES);
+  settings.strategy = options.strategy
+    ? (STRATEGIES[options.strategy] ?? STRATEGIES.balanced)
+    : strategyList[Math.floor(settings.random() * strategyList.length)];
   const valid = pokemon.filter(Boolean).filter((entry) => !settings.noLegendaries || !LEGENDARY_IDS.has(entry.id));
   const unique = [...new Map(valid.map((entry) => [entry.id, entry])).values()];
   const selected = [];
 
+  // Si el entrenador pidió usar sus favoritos, cada formación incluye al
+  // menos uno siempre que esté disponible en el grupo válido.
+  const favoriteCandidates = unique
+    .filter((entry) => settings.preferFavorites && settings.favoriteIds.includes(entry.id))
+    .sort((a, b) => candidateScore(b, selected, settings) - candidateScore(a, selected, settings));
+  if (favoriteCandidates.length) selected.push(weightedPick(favoriteCandidates, settings.random));
+
   while (selected.length < 6 && selected.length < unique.length) {
     const remaining = unique.filter((entry) => !selected.some((member) => member.id === entry.id));
     remaining.sort((a, b) => candidateScore(b, selected, settings) - candidateScore(a, selected, settings));
-    selected.push(remaining[0]);
+    selected.push(weightedPick(remaining, settings.random));
+  }
+
+  // Una segunda generación con los mismos filtros nunca debe devolver la
+  // misma combinación exacta. Se reemplaza el último puesto por la mejor
+  // alternativa disponible si la selección aleatoria coincidió por completo.
+  const previousSignature = [...settings.previousTeamIds].sort((a, b) => a - b).join('-');
+  const currentSignature = [...selected.map((entry) => entry.id)].sort((a, b) => a - b).join('-');
+  if (previousSignature && previousSignature === currentSignature) {
+    const alternatives = unique
+      .filter((entry) => !selected.some((member) => member.id === entry.id))
+      .sort((a, b) => candidateScore(b, selected.slice(0, -1), settings) - candidateScore(a, selected.slice(0, -1), settings));
+    if (alternatives.length) selected[selected.length - 1] = alternatives[0];
   }
 
   const weaknesses = getTeamWeaknesses(selected);
@@ -109,6 +160,7 @@ export function buildRecommendedTeam(pokemon, options = {}) {
     })),
     weaknesses,
     coveredTypes: coveredTypes.size,
+    strategy: settings.strategy,
     score: Math.max(0, Math.min(100, Math.round(62 + coveredTypes.size * 1.5 - weaknesses.filter((entry) => entry.count >= 3).length * 6))),
   };
 }

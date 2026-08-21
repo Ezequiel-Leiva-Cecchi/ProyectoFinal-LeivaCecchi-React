@@ -67,7 +67,10 @@ export default function TeamPage() {
       const settled = await Promise.allSettled(requestedIds.map((id) => queryClient.fetchQuery({ queryKey: ['pokemon', id], queryFn: ({ signal }) => getPokemon(id, { signal }), staleTime: 3600000 })));
       const candidates = settled.filter((result) => result.status === 'fulfilled').map((result) => result.value);
       if (candidates.length < 6) throw new Error('Datos insuficientes');
-      setRecommendation(buildRecommendedTeam(candidates, { format, noLegendaries, preferFavorites, favoriteIds: favorites }));
+      const previousTeamIds = recommendation?.members.map(({ pokemon }) => pokemon.id) ?? [];
+      setRecommendation(buildRecommendedTeam(candidates, {
+        format, noLegendaries, preferFavorites, favoriteIds: favorites, previousTeamIds,
+      }));
     } catch { setGenerationError('No pudimos consultar suficientes especies. Revisá tu conexión e intentá nuevamente.'); }
     finally { setIsGenerating(false); }
   };
@@ -96,9 +99,9 @@ export default function TeamPage() {
       </section>
 
       {recommendation && <section className="recommendation-section page-shell" aria-live="polite">
-        <div className="recommendation-summary"><div><p className="eyebrow">Resultado del análisis</p><h2>Una formación hecha para vos</h2></div><div className="synergy-score"><div><strong>{recommendation.score}</strong><span>/100</span></div><p>Índice de sinergia</p></div><div className="recommendation-metrics"><span><strong>{recommendation.coveredTypes}</strong> tipos cubiertos</span><span><strong>{recommendation.weaknesses.filter(({ count }) => count >= 3).length}</strong> alertas compartidas</span></div></div>
+        <div className="recommendation-summary"><div><p className="eyebrow">Resultado del análisis</p><h2>Una formación hecha para vos</h2></div><div className={`strategy-badge strategy-badge--${recommendation.strategy.id}`}><small>Enfoque elegido</small><strong>{recommendation.strategy.label}</strong><span>{recommendation.strategy.description}</span></div><div className="synergy-score"><div><strong>{recommendation.score}</strong><span>/100</span></div><p>Índice de sinergia</p></div><div className="recommendation-metrics"><span><strong>{recommendation.coveredTypes}</strong> tipos cubiertos</span><span><strong>{recommendation.weaknesses.filter(({ count }) => count >= 3).length}</strong> alertas compartidas</span></div></div>
         <div className="recommendation-grid">{recommendation.members.map((member, index) => <RecommendationCard member={member} index={index} key={member.pokemon.id} />)}</div>
-        <div className="recommendation-actions"><button className="button" type="button" onClick={applyRecommendation}><Check size={18} /> Usar este equipo</button><button className="button button--secondary" type="button" onClick={generateTeam}><RefreshCw size={18} /> Generar otra opción</button></div>
+        <div className="recommendation-actions"><button className="button" type="button" onClick={applyRecommendation}><Check size={18} /> Usar este equipo</button><button className="button button--secondary" type="button" onClick={generateTeam}><RefreshCw size={18} /> Buscar otra formación</button></div>
       </section>}
 
       <section id="current-team" className="current-team page-shell">
