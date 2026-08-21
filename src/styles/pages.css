@@ -999,6 +999,8 @@
 }
 
 .pokedex-hero__intro { max-width: 36rem; margin-bottom: 1.35rem; }
+.pokedex-hero .hero-actions { gap: 0.55rem; }
+.pokedex-hero .hero-actions .button { padding-inline: 1rem; font-size: 0.86rem; }
 
 .hero-device {
   position: relative;
