@@ -4,6 +4,7 @@ import { TrainerContext } from './trainerContext';
 
 const FAVORITES_KEY = 'novadex:favorites';
 const TEAM_KEY = 'novadex:team';
+const RECENT_KEY = 'novadex:recent';
 function readStoredIds(key) {
   try {
     const stored = JSON.parse(localStorage.getItem(key) ?? '[]');
@@ -28,6 +29,7 @@ function saveIds(key, ids) {
 export function TrainerProvider({ children }) {
   const [favorites, setFavorites] = useState(() => readStoredIds(FAVORITES_KEY));
   const [team, setTeam] = useState(() => readStoredIds(TEAM_KEY).slice(0, MAX_TEAM_SIZE));
+  const [recent, setRecent] = useState(() => readStoredIds(RECENT_KEY).slice(0, 6));
 
   const toggleFavorite = useCallback((id) => {
     const numericId = Number(id);
@@ -66,18 +68,30 @@ export function TrainerProvider({ children }) {
     saveIds(TEAM_KEY, next);
   }, []);
 
+  const recordViewed = useCallback((id) => {
+    const numericId = Number(id);
+    if (!Number.isInteger(numericId) || numericId < 1) return;
+    setRecent((current) => {
+      const next = [numericId, ...current.filter((recentId) => recentId !== numericId)].slice(0, 6);
+      saveIds(RECENT_KEY, next);
+      return next;
+    });
+  }, []);
+
   const value = useMemo(
     () => ({
       favorites,
       team,
+      recent,
       isFavorite: (id) => favorites.includes(Number(id)),
       isInTeam: (id) => team.includes(Number(id)),
       toggleFavorite,
       toggleTeamMember,
       replaceTeam,
+      recordViewed,
       maxTeamSize: MAX_TEAM_SIZE,
     }),
-    [favorites, team, toggleFavorite, toggleTeamMember, replaceTeam],
+    [favorites, team, recent, toggleFavorite, toggleTeamMember, replaceTeam, recordViewed],
   );
 
   return <TrainerContext.Provider value={value}>{children}</TrainerContext.Provider>;

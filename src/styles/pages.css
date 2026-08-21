@@ -959,6 +959,111 @@
 
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 
+/* Renovación visual 4.0: una Pokédex reconocible, compacta y centrada en las especies. */
+.pokedex-hero {
+  background:
+    radial-gradient(circle at 74% 44%, rgb(255 211 61 / 10%), transparent 25rem),
+    linear-gradient(120deg, #071725, #0a1725 58%, #130d19);
+}
+
+.pokedex-hero::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgb(255 255 255 / 2.5%) 50%, transparent 50.1%),
+    radial-gradient(circle at 11% 20%, rgb(53 208 186 / 8%), transparent 19rem);
+  content: '';
+  pointer-events: none;
+}
+
+.pokedex-hero__glow { display: none; }
+
+.pokedex-hero__inner {
+  min-height: clamp(36rem, 68vh, 44rem);
+  grid-template-columns: minmax(0, 0.95fr) minmax(29rem, 1.05fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.pokedex-hero h1 {
+  max-width: 11ch;
+  margin-bottom: 1rem;
+  font-size: clamp(3.8rem, 6.6vw, 6.3rem);
+  line-height: 0.96;
+}
+
+.pokedex-hero h1 span {
+  margin-top: 0.16em;
+  background: linear-gradient(110deg, #ffd33d, #ff9b43 52%, #ff4c6d);
+  background-clip: text;
+}
+
+.pokedex-hero__intro { max-width: 36rem; margin-bottom: 1.35rem; }
+
+.hero-device {
+  position: relative;
+  width: min(84%, 26rem);
+  padding: 1rem;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 2.4rem 2.4rem 3.6rem 2.4rem;
+  background: linear-gradient(145deg, #ff4467, #d3133d 64%, #a9082d);
+  box-shadow: 0 2.5rem 5rem rgb(0 0 0 / 45%), inset 0 2px 0 rgb(255 255 255 / 23%);
+  transform: rotate(2deg);
+}
+
+.hero-device::after {
+  position: absolute; inset: 0.5rem;
+  border: 1px solid rgb(80 0 20 / 22%); border-radius: inherit; content: ''; pointer-events: none;
+}
+
+.hero-device__top { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.35rem; min-height: 2.2rem; padding-inline: 0.45rem; }
+.hero-device__top span { width: 0.55rem; aspect-ratio: 1; border: 2px solid rgb(70 0 17 / 35%); border-radius: 50%; background: #ffd33d; }
+.hero-device__top span:first-child { width: 1.6rem; margin-right: 0.3rem; background: #6be8ff; box-shadow: 0 0 1.2rem rgb(107 232 255 / 70%); }
+.hero-device__top span:nth-child(3) { background: #63dd8c; }
+.hero-device__top strong { margin-left: auto; color: rgb(255 255 255 / 72%); font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.12em; }
+.hero-device__screen { position: relative; display: grid; min-height: 23rem; place-items: center; border: 0.65rem solid #f4ead8; border-radius: 1.4rem 1.4rem 2.8rem 1.4rem; background: radial-gradient(circle at 50% 42%, rgb(53 208 186 / 20%), transparent 43%), #07131d; box-shadow: inset 0 0 3rem rgb(0 0 0 / 38%); overflow: hidden; }
+.hero-device__screen::before { position: absolute; inset: 0; background-image: linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px); background-size: 100% 0.35rem; content: ''; opacity: 0.38; }
+.hero-device__screen img { position: relative; z-index: 2; width: 83%; max-height: 20rem; object-fit: contain; filter: drop-shadow(0 1.8rem 1.4rem rgb(0 0 0 / 43%)); animation: float-artwork 5s ease-in-out infinite; }
+.hero-device__screen .hero-number { z-index: 0; font-size: 8rem; }
+.hero-device__screen .hero-scan-card { right: 0.65rem; bottom: 0.65rem; }
+.hero-device__controls { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.7rem; min-height: 3.5rem; padding: 0.8rem 0.6rem 0; }
+.hero-device__controls span:first-child { width: 2rem; aspect-ratio: 1; border-radius: 50%; background: #182330; box-shadow: inset 0 0.2rem 0.3rem rgb(0 0 0 / 45%); }
+.hero-device__controls span:nth-child(2) { width: 4.5rem; height: 0.7rem; border-radius: 999px; background: #ffd33d; }
+.hero-device__controls span:last-child { width: 4.5rem; height: 0.7rem; border-radius: 999px; background: #35d0ba; }
+.hero-companion { position: absolute; z-index: 5; display: grid; width: 7rem; aspect-ratio: 1; place-items: center; border: 1px solid rgb(255 255 255 / 15%); border-radius: 1.5rem; background: rgb(14 31 45 / 88%); box-shadow: var(--shadow-medium); backdrop-filter: blur(15px); }
+.hero-companion img { width: 82%; max-height: 6rem; object-fit: contain; filter: drop-shadow(0 0.8rem 0.7rem rgb(0 0 0 / 35%)); }
+.hero-companion span { position: absolute; right: 0.45rem; bottom: 0.25rem; color: var(--color-subtle); font-size: 0.55rem; font-weight: 800; }
+.hero-companion--one { left: 0; bottom: 10%; transform: rotate(-7deg); }
+.hero-companion--two { top: 12%; right: 0; transform: rotate(8deg); }
+
+.hero-stats { position: relative; z-index: 3; max-width: 67rem; margin-bottom: 1.5rem; border: 0; border-radius: 1.25rem; background: rgb(255 255 255 / 6%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 7%); }
+.hero-stats strong { color: var(--color-warning); }
+
+.discovery-section { padding-top: clamp(4rem, 8vw, 6rem); }
+.discovery-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.8rem; }
+.discovery-grid .pokemon-card { min-height: 17.5rem; border-radius: 1.2rem; }
+.discovery-grid .pokemon-card__link { grid-template-rows: auto minmax(9rem, 1fr) auto; }
+.discovery-grid .pokemon-card__artwork { min-height: 9rem; }
+.discovery-grid .pokemon-card__artwork img { max-height: 8.8rem; }
+.discovery-grid .pokemon-card__body { padding: 0.7rem; }
+.discovery-grid .pokemon-card__body h2 { font-size: 1rem; }
+.discovery-grid .pokemon-card .type-badge { padding-inline: 0.45rem; font-size: 0.58rem; }
+.discovery-grid .pokemon-card__favorite { top: 0.6rem; right: 0.6rem; width: 2.15rem; }
+.discovery-grid .pokemon-card__topline { padding: 0.7rem 3rem 0 0.7rem; font-size: 0.62rem; }
+.region-explorer { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2rem; margin-top: 1rem; padding: 1.25rem 1.4rem; border: 1px solid var(--color-line); border-radius: var(--radius-medium); background: linear-gradient(100deg, rgb(255 56 92 / 9%), rgb(53 208 186 / 6%)); }
+.region-explorer .eyebrow { margin-bottom: 0.25rem; }
+.region-explorer h3 { margin: 0; font-size: 1.2rem; }
+.region-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.45rem; }
+.region-list a { padding: 0.45rem 0.72rem; border: 1px solid var(--color-line); border-radius: 999px; background: rgb(255 255 255 / 4%); color: var(--color-muted); font-size: 0.7rem; font-weight: 750; transition: 160ms ease; }
+.region-list a:hover { border-color: rgb(255 211 61 / 40%); background: rgb(255 211 61 / 8%); color: var(--color-warning); transform: translateY(-2px); }
+.catalog-section { padding-top: clamp(4rem, 8vw, 6rem); }
+
+.move-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.7rem; }
+.move-card { position: relative; display: grid; gap: 0.3rem; min-height: 6.5rem; align-content: center; padding: 1rem 1.1rem; border: 1px solid var(--color-line); border-radius: var(--radius-medium); background: linear-gradient(145deg, rgb(17 36 58 / 85%), rgb(8 21 35 / 88%)); overflow: hidden; }
+.move-card::after { position: absolute; right: -1.5rem; width: 4rem; aspect-ratio: 1; border: 0.8rem solid rgb(255 255 255 / 3%); border-radius: 50%; content: ''; }
+.move-card span { color: var(--color-accent); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.move-card strong { font-family: var(--font-display); font-size: 0.95rem; }
+
 .page-heading--about {
   max-width: 60rem;
 }

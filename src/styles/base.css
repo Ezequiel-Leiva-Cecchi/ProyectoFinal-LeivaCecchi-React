@@ -17,8 +17,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 8% 6%, rgb(78 216 208 / 8%), transparent 28rem),
-    radial-gradient(circle at 92% 18%, rgb(255 79 104 / 8%), transparent 32rem),
+    radial-gradient(circle at 8% 6%, rgb(53 208 186 / 9%), transparent 28rem),
+    radial-gradient(circle at 92% 18%, rgb(255 56 92 / 10%), transparent 32rem),
     var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
@@ -35,7 +35,7 @@ body::before {
   background-image:
     linear-gradient(rgb(255 255 255 / 1.5%) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 1.5%) 1px, transparent 1px);
-  background-size: 4rem 4rem;
+  background-size: 5rem 5rem;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
   content: '';
   pointer-events: none;
@@ -84,7 +84,7 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(3rem, 7vw, 6.8rem);
+  font-size: clamp(3rem, 6vw, 5.8rem);
   letter-spacing: -0.065em;
 }
 
@@ -182,7 +182,7 @@ h3 {
   padding: 0.85rem 1.3rem;
   border: 1px solid transparent;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--color-primary), #ff7853);
+  background: linear-gradient(135deg, var(--color-primary), #ff713f);
   box-shadow: 0 0.9rem 2.2rem rgb(255 79 104 / 24%);
   color: white;
   font-weight: 800;

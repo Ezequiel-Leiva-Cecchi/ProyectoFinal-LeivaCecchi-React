@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft,
@@ -47,7 +47,7 @@ export default function PokemonDetailPage() {
   const returnTo = location.state?.from ?? '/';
   const navigationState = { from: returnTo };
   const [teamMessage, setTeamMessage] = useState('');
-  const { isInTeam, toggleTeamMember } = useTrainer();
+  const { isInTeam, recordViewed, toggleTeamMember } = useTrainer();
 
   const pokemonQuery = useQuery({
     queryKey: ['pokemon', pokemonKey],
@@ -78,6 +78,10 @@ export default function PokemonDetailPage() {
       : formatPokemonName(pokemon.name)
     : 'Ficha Pokémon';
   useDocumentTitle(displayName);
+
+  useEffect(() => {
+    if (pokemon?.id) recordViewed(pokemon.id);
+  }, [pokemon?.id, recordViewed]);
 
   const evolutionChain = useMemo(
     () => mapEvolutionChain(evolutionQuery.data?.chain),
@@ -120,6 +124,14 @@ export default function PokemonDetailPage() {
   const previous = nationalId > 1 ? index[nationalId - 2] : null;
   const next = nationalId < index.length ? index[nationalId] : null;
   const varieties = species.varieties?.filter((entry) => entry.pokemon.name !== pokemon.name) ?? [];
+  const featuredMoves = [...new Map(
+    (pokemon.moves ?? [])
+      .flatMap((entry) => entry.version_group_details
+        .filter((detail) => detail.move_learn_method.name === 'level-up')
+        .map((detail) => ({ name: entry.move.name, level: detail.level_learned_at })))
+      .sort((a, b) => b.level - a.level)
+      .map((move) => [move.name, move]),
+  ).values()].slice(0, 12);
 
   const handleTeam = () => {
     const result = toggleTeamMember(pokemon.id);
@@ -195,6 +207,7 @@ export default function PokemonDetailPage() {
       <div className="detail-content page-shell">
         <nav className="detail-anchor-nav" aria-label="Secciones de la ficha">
           <a href="#perfil">Perfil</a>
+          {featuredMoves.length > 0 && <a href="#movimientos">Movimientos</a>}
           <a href="#estadisticas">Estadísticas</a>
           <a href="#evoluciones">Evoluciones</a>
           {varieties.length > 0 && <a href="#formas">Formas</a>}
@@ -237,6 +250,26 @@ export default function PokemonDetailPage() {
             </div>
           </div>
         </section>
+
+        {featuredMoves.length > 0 && (
+          <section id="movimientos" className="detail-section">
+            <div className="section-heading section-heading--compact">
+              <div>
+                <p className="eyebrow">Aprendizaje natural</p>
+                <h2>Movimientos destacados</h2>
+              </div>
+              <p>Una selección de los movimientos que aprende al subir de nivel, ordenados desde los más avanzados.</p>
+            </div>
+            <div className="move-grid">
+              {featuredMoves.map((move) => (
+                <div className="move-card" key={move.name}>
+                  <span>{move.level ? `Nivel ${move.level}` : 'Al evolucionar'}</span>
+                  <strong>{formatPokemonName(move.name)}</strong>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section id="estadisticas" className="detail-section">
           <div className="section-heading section-heading--compact">

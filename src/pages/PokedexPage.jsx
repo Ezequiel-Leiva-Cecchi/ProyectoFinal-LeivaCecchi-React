@@ -10,7 +10,9 @@ import {
   getType,
 } from '../api/pokeApi';
 import { PAGE_SIZE, POKEMON_TYPES } from '../config/pokemon';
+import { useTrainer } from '../context/trainerContext';
 import PokemonGrid from '../components/PokemonGrid';
+import PokemonCard from '../components/PokemonCard';
 import Pagination from '../components/Pagination';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
@@ -20,9 +22,25 @@ import {
   sortPokemonIndex,
 } from '../utils/pokemon';
 
+const CURATED_POKEMON = [
+  { id: 6, name: 'charizard' },
+  { id: 94, name: 'gengar' },
+  { id: 448, name: 'lucario' },
+  { id: 700, name: 'sylveon' },
+  { id: 887, name: 'dragapult' },
+  { id: 1000, name: 'gholdengo' },
+];
+
+const REGION_SHORTCUTS = [
+  ['Kanto', 'generation-i'], ['Johto', 'generation-ii'], ['Hoenn', 'generation-iii'],
+  ['Sinnoh', 'generation-iv'], ['Teselia', 'generation-v'], ['Kalos', 'generation-vi'],
+  ['Alola', 'generation-vii'], ['Galar', 'generation-viii'], ['Paldea', 'generation-ix'],
+];
+
 export default function PokedexPage() {
   useDocumentTitle('Pokédex Nacional');
   const navigate = useNavigate();
+  const { recent } = useTrainer();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchInputRef = useRef(null);
   const search = searchParams.get('q') ?? '';
@@ -87,6 +105,10 @@ export default function PokedexPage() {
     (generation !== 'all' && generationQuery.isPending);
   const queryError = indexQuery.error || typeQuery.error || generationQuery.error;
   const hasFilters = search || type !== 'all' || generation !== 'all' || sortBy !== 'id-asc';
+  const recentPokemon = recent
+    .map((id) => indexQuery.data?.results.find((pokemon) => pokemon.id === id))
+    .filter(Boolean);
+  const discoveryPokemon = recentPokemon.length ? recentPokemon : CURATED_POKEMON;
 
   // Los filtros se guardan en la URL: al volver desde una ficha se conserva
   // exactamente la búsqueda, y el enlace también se puede compartir.
@@ -146,16 +168,14 @@ export default function PokedexPage() {
         <div className="pokedex-hero__glow" aria-hidden="true" />
         <div className="pokedex-hero__inner page-shell">
           <div className="pokedex-hero__copy">
-            <p className="eyebrow">
-              <span className="status-dot" aria-hidden="true" /> Sistema Pokédex activo
-            </p>
+            <p className="eyebrow"><span className="status-dot" aria-hidden="true" /> Pokédex Nacional · Archivo 2026</p>
             <h1>
-              Toda la Pokédex.
-              <span> Una sola misión.</span>
+              Encontrá a tu
+              <span> próximo compañero.</span>
             </h1>
             <p className="pokedex-hero__intro">
-              Explorá cada especie registrada, descubrí sus evoluciones y armá el equipo que
-              llevarías a tu propia aventura.
+              Más que una lista: datos, evoluciones, comparaciones y un laboratorio que piensa
+              equipos alrededor de tus favoritos.
             </p>
 
             <label className="hero-search">
@@ -192,15 +212,17 @@ export default function PokedexPage() {
           </div>
 
           <div className="pokedex-hero__visual" aria-hidden="true">
-            <span className="orbit orbit--one" />
-            <span className="orbit orbit--two" />
-            <span className="hero-number">0384</span>
-            <img src={getOfficialArtworkUrl(384)} alt="" />
-            <div className="hero-scan-card">
-              <Sparkles size={16} />
-              <span>Objeto identificado</span>
-              <strong>Rayquaza</strong>
+            <div className="hero-device">
+              <div className="hero-device__top"><span /><span /><span /><strong>ND–025</strong></div>
+              <div className="hero-device__screen">
+                <span className="hero-number">025</span>
+                <img src={getOfficialArtworkUrl(25)} alt="" />
+                <div className="hero-scan-card"><Sparkles size={16} /><span>Compañero detectado</span><strong>Pikachu</strong></div>
+              </div>
+              <div className="hero-device__controls"><span /><span /><span /></div>
             </div>
+            <div className="hero-companion hero-companion--one"><img src={getOfficialArtworkUrl(1)} alt="" /><span>#001</span></div>
+            <div className="hero-companion hero-companion--two"><img src={getOfficialArtworkUrl(4)} alt="" /><span>#004</span></div>
           </div>
         </div>
 
@@ -221,6 +243,23 @@ export default function PokedexPage() {
             <strong>6</strong>
             <span>Lugares en tu equipo</span>
           </div>
+        </div>
+      </section>
+
+      <section className="discovery-section page-shell" aria-labelledby="discovery-title">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">{recentPokemon.length ? 'Tu recorrido' : 'Selección NovaDex'}</p>
+            <h2 id="discovery-title">{recentPokemon.length ? 'Vistos recientemente' : 'Seis especies para empezar'}</h2>
+          </div>
+          <p>{recentPokemon.length ? 'Retomá una ficha sin volver a buscarla.' : 'Una selección de favoritos de distintas generaciones.'}</p>
+        </div>
+        <div className="discovery-grid">
+          {discoveryPokemon.map((pokemon) => <PokemonCard key={pokemon.id} pokemon={pokemon} />)}
+        </div>
+        <div className="region-explorer">
+          <div><p className="eyebrow">Viaje por regiones</p><h3>Elegí una generación</h3></div>
+          <div className="region-list">{REGION_SHORTCUTS.map(([label, value]) => <Link key={value} to={`/?generacion=${value}#catalog-results`}>{label}</Link>)}</div>
         </div>
       </section>
 

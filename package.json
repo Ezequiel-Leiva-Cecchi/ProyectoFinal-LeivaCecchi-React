@@ -1,9 +1,9 @@
 {
   "name": "novadex-react",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "type": "module",
-  "description": "Pokédex moderna y responsive construida con React y PokéAPI.",
+  "description": "Pokédex Nacional premium con exploración, comparación y creación inteligente de equipos.",
   "engines": {
     "node": ">=22.13.0"
   },

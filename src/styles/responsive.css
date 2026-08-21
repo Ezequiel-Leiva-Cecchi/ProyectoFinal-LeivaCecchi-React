@@ -62,6 +62,9 @@
   }
 
   .recommendation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pokedex-hero__inner { grid-template-columns: minmax(0, 0.9fr) minmax(24rem, 1.1fr); }
+  .discovery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .move-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 50rem) {
@@ -71,6 +74,12 @@
   .format-picker > div, .analysis-columns { grid-template-columns: 1fr; }
   .recommendation-summary { align-items: stretch; }
   .synergy-score { width: 9rem; }
+  .pokedex-hero__inner { grid-template-columns: 1fr; }
+  .pokedex-hero__visual { min-height: 31rem; }
+  .hero-device { width: min(76%, 25rem); }
+  .region-explorer { grid-template-columns: 1fr; }
+  .region-list { justify-content: flex-start; }
+  .move-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pokedex-hero__inner,
   .detail-hero__grid {
     grid-template-columns: 1fr;
@@ -253,6 +262,18 @@
   .recommendation-grid { grid-template-columns: 1fr; }
   .recommendation-card { grid-template-columns: 7.5rem 1fr; }
   .recommendation-actions { display: grid; }
+  .pokedex-hero h1 { font-size: clamp(3.2rem, 15vw, 4.7rem); }
+  .pokedex-hero__visual { min-height: 26rem; }
+  .hero-device { width: min(82%, 21rem); border-radius: 1.8rem 1.8rem 2.8rem 1.8rem; }
+  .hero-device__screen { min-height: 18rem; }
+  .hero-device__screen img { max-height: 16rem; }
+  .hero-companion { width: 5rem; border-radius: 1rem; }
+  .hero-companion--one { bottom: 7%; }
+  .hero-companion--two { top: 8%; }
+  .hero-stats { margin-bottom: 0.7rem; }
+  .discovery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+  .region-explorer { padding: 1rem; }
+  .move-grid { grid-template-columns: 1fr; }
 
   .catalog-section {
     padding-block: 3.5rem;

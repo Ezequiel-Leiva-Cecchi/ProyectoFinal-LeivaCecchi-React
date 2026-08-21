@@ -1,6 +1,6 @@
 # NovaDex
 
-Una Pokédex moderna, rápida y responsive construida con React. NovaDex permite explorar la Pokédex Nacional completa, investigar cada especie y armar una colección personal sin crear una cuenta ni entregar datos sensibles.
+Una experiencia completa de Pokédex construida con React. NovaDex permite explorar la Pokédex Nacional, investigar cada especie, retomar el historial de navegación y crear equipos inteligentes sin cuentas ni datos personales.
 
 > El catálogo no tiene un total escrito a mano: consulta PokéAPI y se adapta automáticamente. Al momento de esta renovación contiene **1.025 especies**, desde Bulbasaur hasta Pecharunt.
 
@@ -12,6 +12,7 @@ Una Pokédex moderna, rápida y responsive construida con React. NovaDex permite
 - Filtros y páginas reflejados en la URL para conservar y compartir búsquedas.
 - Paginación y estados claros de carga, error y resultados vacíos.
 - Fichas con arte oficial, descripción en español, tipos, habilidades y medidas.
+- Movimientos destacados aprendidos al subir de nivel.
 - Estadísticas base y cadena evolutiva.
 - Acceso a formas y variantes disponibles en PokéAPI.
 - Favoritos persistentes en el navegador.
@@ -22,6 +23,9 @@ Una Pokédex moderna, rápida y responsive construida con React. NovaDex permite
 - Diagnóstico de tipos, estadísticas, roles y debilidades del equipo actual.
 - Comparador visual de estadísticas entre dos especies.
 - Selección aleatoria y atajo `/` para abrir el buscador.
+- Historial local con las seis especies vistas recientemente.
+- Accesos rápidos a las nueve regiones y generaciones.
+- Portada inspirada en una Pokédex física y cards de alto contraste.
 - Diseño adaptable a celulares, tablets y escritorio.
 - Navegación accesible por teclado y soporte para movimiento reducido.
 
