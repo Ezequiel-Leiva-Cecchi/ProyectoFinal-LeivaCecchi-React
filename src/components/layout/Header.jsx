@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Heart, Info, Menu, Scale, Shield, X } from 'lucide-react';
+import { BrainCircuit, Heart, Info, Menu, Scale, X } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 import { useTrainer } from '../../context/trainerContext';
 import PokeballMark from '../PokeballMark';
@@ -7,7 +7,7 @@ import PokeballMark from '../PokeballMark';
 const navigation = [
   { to: '/', label: 'Pokédex', end: true },
   { to: '/favoritos', label: 'Favoritos', icon: Heart, counter: 'favorites' },
-  { to: '/equipo', label: 'Mi equipo', icon: Shield, counter: 'team' },
+  { to: '/equipo', label: 'Team Lab', icon: BrainCircuit, counter: 'team' },
   { to: '/comparar', label: 'Comparar', icon: Scale },
   { to: '/proyecto', label: 'Proyecto', icon: Info },
 ];

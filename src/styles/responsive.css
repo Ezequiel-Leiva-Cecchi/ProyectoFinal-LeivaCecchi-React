@@ -60,9 +60,17 @@
   .compare-controls > .button {
     grid-column: 1 / -1;
   }
+
+  .recommendation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 50rem) {
+  .team-lab-hero__grid { grid-template-columns: 1fr; gap: 1rem; }
+  .team-lab-hero__visual { min-height: 24rem; }
+  .team-builder__intro, .recommendation-summary { grid-template-columns: 1fr; gap: 1rem; }
+  .format-picker > div, .analysis-columns { grid-template-columns: 1fr; }
+  .recommendation-summary { align-items: stretch; }
+  .synergy-score { width: 9rem; }
   .pokedex-hero__inner,
   .detail-hero__grid {
     grid-template-columns: 1fr;
@@ -229,6 +237,22 @@
   .hero-stats > div {
     padding: 0.85rem;
   }
+
+  .team-lab-hero__grid { min-height: 0; padding-block: 3.5rem; }
+  .team-lab-hero__copy h1 { font-size: clamp(3rem, 14vw, 4.4rem); }
+  .team-lab-hero__copy > p:not(.eyebrow) { font-size: 0.95rem; }
+  .team-lab-hero__visual { min-height: 20rem; }
+  .team-lab-ring--two { width: 19rem; }
+  .team-lab-ring--one { width: 14rem; }
+  .lab-signal--one { left: 0; }
+  .lab-signal--two { right: 0; }
+  .lab-preferences { grid-template-columns: 1fr; }
+  .lab-preferences > p { grid-column: auto; }
+  .generate-panel { grid-template-columns: auto 1fr; }
+  .generate-panel .button { grid-column: 1 / -1; }
+  .recommendation-grid { grid-template-columns: 1fr; }
+  .recommendation-card { grid-template-columns: 7.5rem 1fr; }
+  .recommendation-actions { display: grid; }
 
   .catalog-section {
     padding-block: 3.5rem;

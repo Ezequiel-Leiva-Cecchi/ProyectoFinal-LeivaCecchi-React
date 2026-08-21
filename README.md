@@ -15,8 +15,11 @@ Una Pokédex moderna, rápida y responsive construida con React. NovaDex permite
 - Estadísticas base y cadena evolutiva.
 - Acceso a formas y variantes disponibles en PokéAPI.
 - Favoritos persistentes en el navegador.
-- Equipo personal de hasta seis Pokémon.
-- Resumen de tipos y estadísticas del equipo armado.
+- **Team Lab** con recomendaciones de seis Pokémon según estilo aventura, individual o dobles.
+- Preferencias para excluir legendarios y priorizar los favoritos guardados.
+- Explicaciones por integrante, roles, cobertura, índice de sinergia y alertas compartidas.
+- Equipo personal de hasta seis Pokémon, armado manualmente o aplicando una recomendación.
+- Diagnóstico de tipos, estadísticas, roles y debilidades del equipo actual.
 - Comparador visual de estadísticas entre dos especies.
 - Selección aleatoria y atajo `/` para abrir el buscador.
 - Diseño adaptable a celulares, tablets y escritorio.
@@ -92,7 +95,8 @@ El flujo automático de GitHub ejecuta en cada pull request:
 
 1. análisis estático con ESLint;
 2. pruebas de utilidades, API, estado y pantalla principal;
-3. compilación de producción.
+3. pruebas específicas del motor de recomendación de Team Lab;
+4. compilación de producción.
 
 También podés ejecutar exactamente la misma validación con:
 

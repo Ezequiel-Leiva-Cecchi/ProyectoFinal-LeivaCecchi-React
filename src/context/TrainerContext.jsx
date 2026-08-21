@@ -59,6 +59,13 @@ export function TrainerProvider({ children }) {
     [team],
   );
 
+  const replaceTeam = useCallback((ids) => {
+    const next = [...new Set(ids.map(Number).filter((id) => Number.isInteger(id) && id > 0))]
+      .slice(0, MAX_TEAM_SIZE);
+    setTeam(next);
+    saveIds(TEAM_KEY, next);
+  }, []);
+
   const value = useMemo(
     () => ({
       favorites,
@@ -67,9 +74,10 @@ export function TrainerProvider({ children }) {
       isInTeam: (id) => team.includes(Number(id)),
       toggleFavorite,
       toggleTeamMember,
+      replaceTeam,
       maxTeamSize: MAX_TEAM_SIZE,
     }),
-    [favorites, team, toggleFavorite, toggleTeamMember],
+    [favorites, team, toggleFavorite, toggleTeamMember, replaceTeam],
   );
 
   return <TrainerContext.Provider value={value}>{children}</TrainerContext.Provider>;

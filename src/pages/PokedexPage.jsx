@@ -178,7 +178,7 @@ export default function PokedexPage() {
                 Explorar especies <ArrowRight size={18} aria-hidden="true" />
               </a>
               <Link className="button button--secondary" to="/equipo">
-                <Shield size={18} aria-hidden="true" /> Armar mi equipo
+                <Shield size={18} aria-hidden="true" /> Abrir Team Lab
               </Link>
               <button
                 className="button button--secondary"
