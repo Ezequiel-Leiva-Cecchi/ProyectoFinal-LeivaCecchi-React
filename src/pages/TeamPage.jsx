@@ -73,11 +73,12 @@ export default function TeamPage() {
   };
 
   const applyRecommendation = () => { if (!recommendation) return; replaceTeam(recommendation.members.map(({ pokemon }) => pokemon.id)); document.querySelector('#current-team')?.scrollIntoView({ behavior: 'smooth' }); };
+  const scrollToBuilder = () => document.querySelector('#team-builder')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <div className="team-lab-page">
       <section className="team-lab-hero"><div className="team-lab-hero__grid page-shell">
-        <div className="team-lab-hero__copy"><p className="eyebrow"><Sparkles size={15} /> Inteligencia de combate NovaDex</p><h1>Tu próximo gran equipo empieza acá.</h1><p>Combiná estrategia y favoritos. Team Lab estudia estadísticas, tipos, roles y debilidades compartidas para proponerte seis compañeros con sentido.</p><a className="button" href="#team-builder"><WandSparkles size={18} /> Crear recomendación</a></div>
+        <div className="team-lab-hero__copy"><p className="eyebrow"><Sparkles size={15} /> Inteligencia de combate NovaDex</p><h1>Tu próximo gran equipo empieza acá.</h1><p>Combiná estrategia y favoritos. Team Lab estudia estadísticas, tipos, roles y debilidades compartidas para proponerte seis compañeros con sentido.</p><button className="button" type="button" onClick={scrollToBuilder}><WandSparkles size={18} /> Crear recomendación</button></div>
         <div className="team-lab-hero__visual" aria-hidden="true"><div className="team-lab-orb"><BrainCircuit size={68} /></div><span className="team-lab-ring team-lab-ring--one" /><span className="team-lab-ring team-lab-ring--two" /><div className="lab-signal lab-signal--one"><Activity size={16} /> Analizando roles</div><div className="lab-signal lab-signal--two"><Trophy size={16} /> Balance competitivo</div></div>
       </div></section>
 

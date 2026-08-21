@@ -393,7 +393,8 @@
     margin-top: 0.75rem;
   }
 
-  .detail-anchor-nav a {
+  .detail-anchor-nav a,
+  .detail-anchor-nav button {
     flex: 0 0 auto;
   }
 

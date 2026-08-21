@@ -162,6 +162,10 @@ export default function PokedexPage() {
     if (generation !== 'all') generationQuery.refetch();
   };
 
+  const scrollToCatalog = () => {
+    document.querySelector('#catalog-results')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <>
       <section className="pokedex-hero">
@@ -194,9 +198,9 @@ export default function PokedexPage() {
             </label>
 
             <div className="hero-actions">
-              <a className="button" href="#catalog-results">
+              <button className="button" type="button" onClick={scrollToCatalog}>
                 Explorar especies <ArrowRight size={18} aria-hidden="true" />
-              </a>
+              </button>
               <Link className="button button--secondary" to="/equipo">
                 <Shield size={18} aria-hidden="true" /> Abrir Team Lab
               </Link>

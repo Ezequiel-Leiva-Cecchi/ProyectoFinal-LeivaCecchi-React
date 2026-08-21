@@ -55,6 +55,14 @@ export function getType(identifier, options) {
   return fetchJson(`/type/${encodeURIComponent(identifier)}`, options);
 }
 
+export function getAbility(identifier, options) {
+  return fetchJson(`/ability/${encodeURIComponent(identifier)}`, options);
+}
+
+export function getMove(identifier, options) {
+  return fetchJson(`/move/${encodeURIComponent(identifier)}`, options);
+}
+
 export function getEvolutionChain(url, options) {
   return fetchJson(url, options);
 }

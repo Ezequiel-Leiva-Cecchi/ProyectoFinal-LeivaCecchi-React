@@ -80,6 +80,12 @@ describe('ficha de un Pokémon', () => {
         });
       }
 
+      if (url.endsWith('/ability/static')) {
+        return response({
+          names: [{ language: { name: 'es' }, name: 'Electricidad Estática' }],
+        });
+      }
+
       if (url.includes('/pokemon-species?')) {
         return response({ count: 1025, results: [] });
       }
@@ -91,6 +97,7 @@ describe('ficha de un Pokémon', () => {
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Pikachu' })).toBeInTheDocument();
     expect(screen.getByText('Almacena electricidad en sus mejillas.')).toBeInTheDocument();
+    expect(await screen.findByText('Electricidad Estática')).toBeInTheDocument();
     expect(await screen.findByRole('link', { name: /Pichu/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Sumar al equipo/i }));

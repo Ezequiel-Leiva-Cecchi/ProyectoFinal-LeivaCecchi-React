@@ -412,16 +412,20 @@
   overflow-x: auto;
 }
 
-.detail-anchor-nav a {
+.detail-anchor-nav a,
+.detail-anchor-nav button {
   padding: 0.5rem 0.8rem;
+  border: 0;
   border-radius: 999px;
+  background: transparent;
   color: var(--color-muted);
   font-size: 0.75rem;
   font-weight: 750;
   white-space: nowrap;
 }
 
-.detail-anchor-nav a:hover {
+.detail-anchor-nav a:hover,
+.detail-anchor-nav button:hover {
   background: rgb(255 255 255 / 6%);
   color: var(--color-text);
 }

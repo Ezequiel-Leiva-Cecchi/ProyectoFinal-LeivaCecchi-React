@@ -14,11 +14,17 @@ function ScrollToTop() {
 }
 
 export default function AppLayout() {
+  const skipToContent = () => {
+    const content = document.querySelector('#main-content');
+    content?.scrollIntoView({ block: 'start' });
+    content?.focus({ preventScroll: true });
+  };
+
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#main-content">
+      <button className="skip-link" type="button" onClick={skipToContent}>
         Saltar al contenido principal
-      </a>
+      </button>
       <ScrollToTop />
       <Header />
       <main id="main-content" tabIndex="-1">

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft,
   ArrowRight,
@@ -11,12 +11,14 @@ import {
 } from 'lucide-react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import {
+  getAbility,
   getArtworkFromPokemon,
   getEvolutionChain,
   getPixelSpriteUrl,
   getPokemon,
   getPokemonIndex,
   getPokemonSpecies,
+  getMove,
 } from '../api/pokeApi';
 import { TYPE_BY_KEY } from '../config/pokemon';
 import EvolutionTree from '../components/EvolutionTree';
@@ -79,6 +81,27 @@ export default function PokemonDetailPage() {
     : 'Ficha Pokémon';
   useDocumentTitle(displayName);
 
+  const featuredMoves = useMemo(() => [...new Map(
+    (pokemon?.moves ?? [])
+      .flatMap((entry) => entry.version_group_details
+        .filter((detail) => detail.move_learn_method.name === 'level-up')
+        .map((detail) => ({ name: entry.move.name, level: detail.level_learned_at })))
+      .sort((a, b) => b.level - a.level)
+      .map((move) => [move.name, move]),
+  ).values()].slice(0, 12), [pokemon?.moves]);
+  const abilityQueries = useQueries({
+    queries: (pokemon?.abilities ?? []).map((entry) => ({
+      queryKey: ['ability', entry.ability.name],
+      queryFn: ({ signal }) => getAbility(entry.ability.name, { signal }),
+    })),
+  });
+  const moveQueries = useQueries({
+    queries: featuredMoves.map((move) => ({
+      queryKey: ['move', move.name],
+      queryFn: ({ signal }) => getMove(move.name, { signal }),
+    })),
+  });
+
   useEffect(() => {
     if (pokemon?.id) recordViewed(pokemon.id);
   }, [pokemon?.id, recordViewed]);
@@ -124,14 +147,9 @@ export default function PokemonDetailPage() {
   const previous = nationalId > 1 ? index[nationalId - 2] : null;
   const next = nationalId < index.length ? index[nationalId] : null;
   const varieties = species.varieties?.filter((entry) => entry.pokemon.name !== pokemon.name) ?? [];
-  const featuredMoves = [...new Map(
-    (pokemon.moves ?? [])
-      .flatMap((entry) => entry.version_group_details
-        .filter((detail) => detail.move_learn_method.name === 'level-up')
-        .map((detail) => ({ name: entry.move.name, level: detail.level_learned_at })))
-      .sort((a, b) => b.level - a.level)
-      .map((move) => [move.name, move]),
-  ).values()].slice(0, 12);
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const handleTeam = () => {
     const result = toggleTeamMember(pokemon.id);
@@ -206,11 +224,11 @@ export default function PokemonDetailPage() {
 
       <div className="detail-content page-shell">
         <nav className="detail-anchor-nav" aria-label="Secciones de la ficha">
-          <a href="#perfil">Perfil</a>
-          {featuredMoves.length > 0 && <a href="#movimientos">Movimientos</a>}
-          <a href="#estadisticas">Estadísticas</a>
-          <a href="#evoluciones">Evoluciones</a>
-          {varieties.length > 0 && <a href="#formas">Formas</a>}
+          <button type="button" onClick={() => scrollToSection('perfil')}>Perfil</button>
+          {featuredMoves.length > 0 && <button type="button" onClick={() => scrollToSection('movimientos')}>Movimientos</button>}
+          <button type="button" onClick={() => scrollToSection('estadisticas')}>Estadísticas</button>
+          <button type="button" onClick={() => scrollToSection('evoluciones')}>Evoluciones</button>
+          {varieties.length > 0 && <button type="button" onClick={() => scrollToSection('formas')}>Formas</button>}
         </nav>
 
         <section id="perfil" className="detail-section detail-profile">
@@ -234,9 +252,9 @@ export default function PokemonDetailPage() {
             <div className="profile-list-card">
               <h3>Habilidades</h3>
               <ul className="chip-list">
-                {pokemon.abilities.map((entry) => (
+                {pokemon.abilities.map((entry, index) => (
                   <li key={entry.ability.name}>
-                    {formatPokemonName(entry.ability.name)}
+                    {getLocalizedName(abilityQueries[index]?.data?.names, formatPokemonName(entry.ability.name))}
                     {entry.is_hidden && <small>Oculta</small>}
                   </li>
                 ))}
@@ -261,10 +279,10 @@ export default function PokemonDetailPage() {
               <p>Una selección de los movimientos que aprende al subir de nivel, ordenados desde los más avanzados.</p>
             </div>
             <div className="move-grid">
-              {featuredMoves.map((move) => (
+              {featuredMoves.map((move, index) => (
                 <div className="move-card" key={move.name}>
                   <span>{move.level ? `Nivel ${move.level}` : 'Al evolucionar'}</span>
-                  <strong>{formatPokemonName(move.name)}</strong>
+                  <strong>{getLocalizedName(moveQueries[index]?.data?.names, formatPokemonName(move.name))}</strong>
                 </div>
               ))}
             </div>
