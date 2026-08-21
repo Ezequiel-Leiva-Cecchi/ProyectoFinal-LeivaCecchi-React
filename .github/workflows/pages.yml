@@ -3,7 +3,7 @@ name: Publicar NovaDex en GitHub Pages
 on:
   push:
     branches:
-      - agent/pokedex-rebuild
+      - main
   workflow_dispatch:
 
 # GitHub Pages utiliza un artefacto firmado; no necesita secretos propios.
