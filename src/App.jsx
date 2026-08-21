@@ -1,39 +1,40 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {  Items } from './context/CartContext';
-import Card from './components/Cards/Card';
-import Nav from './components/Navbar/Nav';
-import PokemonCount from './components/PokemonCount/PokemonCount';
-import Nosotros from './components/QuienesSomos/Nosotros';
-import Footer from './components/Footer/Footer';
-import PokemonDetail from './components/PokemonDetail/PokemonDetail';
-import Cart from './components/Carrito/Cart';
-import Checkout from './components/Checkout/Checkout';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+import { TrainerProvider } from './context/TrainerContext';
+import AppLayout from './components/layout/AppLayout';
+import PageLoader from './components/PageLoader';
 
+// Cada pantalla se descarga cuando hace falta para que la portada inicial sea liviana.
+const PokedexPage = lazy(() => import('./pages/PokedexPage'));
+const PokemonDetailPage = lazy(() => import('./pages/PokemonDetailPage'));
+const FavoritesPage = lazy(() => import('./pages/FavoritesPage'));
+const TeamPage = lazy(() => import('./pages/TeamPage'));
+const ComparePage = lazy(() => import('./pages/ComparePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
+export default function App() {
+  // GitHub Pages usa hash routing para que las rutas funcionen sin servidor.
+  // Vercel mantiene URLs limpias mediante BrowserRouter y su rewrite propio.
+  const Router = import.meta.env.VITE_ROUTER_MODE === 'hash' ? HashRouter : BrowserRouter;
 
-function App() {
   return (
-    <Items>
-      <BrowserRouter>
-        <div className="nav-container"> 
-          <Nav />
-        </div>
-        <div className="routes-container"> 
+    <TrainerProvider>
+      <Router>
+        <Suspense fallback={<PageLoader label="Preparando la Pokédex" />}>
           <Routes>
-            <Route path="/" element={<Card />} />
-            <Route path="/nosotros" element={<Nosotros />} />
-            <Route path="/detalles/:pokemonName" element={<PokemonDetail />} />
-            <Route path="/contador" element={<PokemonCount />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route element={<AppLayout />}>
+              <Route index element={<PokedexPage />} />
+              <Route path="pokemon/:identifier" element={<PokemonDetailPage />} />
+              <Route path="favoritos" element={<FavoritesPage />} />
+              <Route path="equipo" element={<TeamPage />} />
+              <Route path="comparar" element={<ComparePage />} />
+              <Route path="proyecto" element={<AboutPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
           </Routes>
-        </div>
-        <div className="footer-container"> 
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </Items>
+        </Suspense>
+      </Router>
+    </TrainerProvider>
   );
 }
-
-export default App;

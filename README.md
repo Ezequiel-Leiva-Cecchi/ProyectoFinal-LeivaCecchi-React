@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# NovaDex
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Una Pokédex moderna, rápida y responsive construida con React. NovaDex permite explorar la Pokédex Nacional completa, investigar cada especie y armar una colección personal sin crear una cuenta ni entregar datos sensibles.
 
-## Available Scripts
+> El catálogo no tiene un total escrito a mano: consulta PokéAPI y se adapta automáticamente. Al momento de esta renovación contiene **1.025 especies**, desde Bulbasaur hasta Pecharunt.
 
-In the project directory, you can run:
+## Qué incluye
 
-### `npm start`
+- Pokédex Nacional con búsqueda por nombre o número.
+- Filtros por tipo y generación.
+- Orden alfabético y por número nacional.
+- Filtros y páginas reflejados en la URL para conservar y compartir búsquedas.
+- Paginación y estados claros de carga, error y resultados vacíos.
+- Fichas con arte oficial, descripción en español, tipos, habilidades y medidas.
+- Estadísticas base y cadena evolutiva.
+- Acceso a formas y variantes disponibles en PokéAPI.
+- Favoritos persistentes en el navegador.
+- Equipo personal de hasta seis Pokémon.
+- Resumen de tipos y estadísticas del equipo armado.
+- Comparador visual de estadísticas entre dos especies.
+- Selección aleatoria y atajo `/` para abrir el buscador.
+- Diseño adaptable a celulares, tablets y escritorio.
+- Navegación accesible por teclado y soporte para movimiento reducido.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tecnología
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [React 19](https://react.dev/) para la interfaz.
+- [Vite](https://vite.dev/) para desarrollo y compilación.
+- [React Router](https://reactrouter.com/) para las rutas.
+- [TanStack Query](https://tanstack.com/query/latest) para caché y sincronización de datos.
+- [PokéAPI](https://pokeapi.co/) como fuente pública de información e imágenes.
+- CSS modularizado por responsabilidad, sin una librería visual externa.
+- Vitest y Testing Library para pruebas.
 
-### `npm test`
+## Estructura
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```text
+src/
+├── api/          # Comunicación y normalización de PokéAPI
+├── components/   # Piezas reutilizables de la interfaz
+├── config/       # Tipos, generaciones y constantes visuales
+├── context/      # Estado local de favoritos y equipo
+├── hooks/        # Comportamientos reutilizables
+├── pages/        # Pantallas asociadas a cada ruta
+├── styles/       # Tokens, base, componentes y responsive
+├── test/         # Configuración común de pruebas
+└── utils/        # Funciones puras de formato y filtrado
+```
 
-### `npm run build`
+El código contiene comentarios en español donde explican decisiones o comportamientos que no son evidentes. Los nombres de funciones y componentes siguen siendo descriptivos para evitar comentarios que sólo repitan el código.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Ejecutarlo en tu computadora
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Necesitás Node.js 22.13 o superior. La versión recomendada para este proyecto está indicada en `.nvmrc`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/Ezequiel-Leiva-Cecchi/ProyectoFinal-LeivaCecchi-React.git
+cd ProyectoFinal-LeivaCecchi-React
+npm install
+npm run dev
+```
 
-### `npm run eject`
+Vite mostrará en la terminal la dirección local que tenés que abrir.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Comandos disponibles
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Comando | Uso |
+| --- | --- |
+| `npm run dev` | Inicia el entorno de desarrollo. |
+| `npm run build` | Genera la versión optimizada en `dist/`. |
+| `npm run preview` | Prueba localmente la compilación. |
+| `npm run lint` | Revisa errores y malas prácticas. |
+| `npm run test` | Ejecuta todas las pruebas una vez. |
+| `npm run test:watch` | Repite pruebas mientras programás. |
+| `npm run check` | Ejecuta lint, pruebas y build en conjunto. |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Privacidad y seguridad
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Esta versión elimina el checkout, Firebase y la recolección de nombre, teléfono, domicilio o tarjeta que tenía el proyecto educativo original.
 
-## Learn More
+- No utiliza credenciales privadas ni secretos en el frontend.
+- No almacena información en servidores propios.
+- Favoritos y equipo se guardan únicamente en `localStorage` del dispositivo.
+- Las rutas externas se limitan a PokéAPI y a sus imágenes oficiales.
+- Las dependencias se revisan con `npm audit` y GitHub Actions valida cada cambio.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Si en el futuro se agrega autenticación o una base de datos, las claves privadas deberán permanecer en un backend y nunca dentro del código enviado al navegador.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Calidad
 
-### Code Splitting
+El flujo automático de GitHub ejecuta en cada pull request:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. análisis estático con ESLint;
+2. pruebas de utilidades, API, estado y pantalla principal;
+3. compilación de producción.
 
-### Analyzing the Bundle Size
+También podés ejecutar exactamente la misma validación con:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm run check
+```
 
-### Making a Progressive Web App
+## Aclaración legal
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Proyecto personal y educativo, sin fines comerciales. Pokémon y sus personajes pertenecen a Nintendo, Game Freak y The Pokémon Company. NovaDex no está afiliada ni respaldada por esas compañías.

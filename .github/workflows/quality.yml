@@ -1,0 +1,35 @@
+name: Calidad
+
+# La validación se ejecuta antes de integrar cambios y también sobre main.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# El workflow sólo necesita leer el contenido del repositorio.
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: Lint, pruebas y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Descargar el proyecto
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # npm ci respeta exactamente las versiones guardadas en package-lock.json.
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar el proyecto
+        run: npm run check
