@@ -8,14 +8,13 @@ import './styles/base.css';
 import './styles/components.css';
 import './styles/pages.css';
 import './styles/responsive.css';
+import './styles/visual-refresh.css';
 
-// React Query evita repetir pedidos al volver a una card o a una ficha ya visitada.
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 60,
       gcTime: 1000 * 60 * 60 * 24,
-      // Un 404 es definitivo; los fallos temporales sí reciben dos intentos.
       retry: (failureCount, error) => error?.status !== 404 && failureCount < 2,
       refetchOnWindowFocus: false,
     },
